@@ -41,12 +41,21 @@ public class PlayerController : MonoBehaviour
 
     public CropController.CropType seedCropType;
 
+    [Header("Stamina System")]
+    public float maxStamina = 100f;
+    public float currentStamina;
+    public float staminaRegenRate = 5f; // Hồi phục mỗi giờ game
+    public float staminaUsePerAction = 10f; // Thể lực tiêu tốn khi làm việc
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         UIController.instance.SwitchTool((int)currentTool);
 
         UIController.instance.SwitchSeed(seedCropType);
+
+        currentStamina = maxStamina;
+        UpdateStaminaUI();
     }
 
     // Update is called once per frame
@@ -181,6 +190,16 @@ public class PlayerController : MonoBehaviour
         {
             toolIndicator.position = new Vector3(0f, 0f, -20f);
         }
+
+        // Hồi phục thể lực theo thời gian
+        if (currentStamina < maxStamina)
+        {
+            currentStamina += staminaRegenRate * Time.deltaTime * TimeController.instance.timeSpeed;
+            if (currentStamina > maxStamina)
+                currentStamina = maxStamina;
+        
+            UpdateStaminaUI();
+        }
     }
 
     void UseTool()
@@ -238,5 +257,25 @@ public class PlayerController : MonoBehaviour
     public void SwitchSeed(CropController.CropType newSeed)
     {
         seedCropType = newSeed;
+    }
+
+    public bool UseStamina(float amount)
+    {
+        if (currentStamina >= amount)
+        {
+            currentStamina -= amount;
+            UpdateStaminaUI();
+            return true;
+        }
+        return false; // Không đủ thể lực
+    }
+
+    private void UpdateStaminaUI()
+    {
+        // Cập nhật UI thể lực
+        if (UIController.instance != null)
+        {
+            UIController.instance.UpdateStaminaBar(currentStamina, maxStamina);
+        }
     }
 }

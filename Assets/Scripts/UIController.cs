@@ -33,6 +33,10 @@ public class UIController : MonoBehaviour
     public GameObject pauseScreen;
     public string mainMenuScene;
 
+    public Slider staminaBar;
+
+    public GameObject sleepPrompt;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -104,6 +108,15 @@ public class UIController : MonoBehaviour
         moneyText.text = "$" + currentMoney;
     }
 
+    public void UpdateStaminaBar(float current, float max)
+    {
+        if (staminaBar != null)
+        {
+            staminaBar.maxValue = max;
+            staminaBar.value = current;
+        }
+    }
+
     public void PauseUnpause()
     {
         if(pauseScreen.activeSelf == false)
@@ -143,5 +156,13 @@ public class UIController : MonoBehaviour
         Application.Quit();
 
         AudioManager.instance.PlaySFXPitchAdjusted(5);
+    }
+
+    public void ShowSleepPrompt(bool show)
+    {
+        if (sleepPrompt != null)
+        {
+            sleepPrompt.SetActive(show);
+        }
     }
 }
