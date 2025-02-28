@@ -11,7 +11,8 @@ public class PlayerController : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-        } else
+        }
+        else
         {
             Destroy(gameObject);
         }
@@ -23,7 +24,7 @@ public class PlayerController : MonoBehaviour
     public InputActionReference moveInput, actionInput;
 
     public Animator anim;
-
+    public InventoryController theIC;
     public enum ToolType
     {
         plough,
@@ -44,8 +45,8 @@ public class PlayerController : MonoBehaviour
     [Header("Stamina System")]
     public float maxStamina = 100f;
     public float currentStamina;
-    public float staminaRegenRate = 5f; // Hồi phục mỗi giờ game
-    public float staminaUsePerAction = 10f; // Thể lực tiêu tốn khi làm việc
+    public float staminaRegenRate = 10f; // Hồi phục mỗi giờ game
+    public float staminaUsePerAction = 5f; // Thể lực tiêu tốn khi làm việc
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -62,11 +63,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-        if(UIController.instance != null)
+        if (UIController.instance != null)
         {
-            if(UIController.instance.theIC != null)
+            if (UIController.instance.theIC != null)
             {
-                if(UIController.instance.theIC.gameObject.activeSelf == true)
+                if (UIController.instance.theIC.gameObject.activeSelf == true)
                 {
                     theRB.linearVelocity = Vector2.zero;
 
@@ -74,9 +75,9 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if(UIController.instance.theShop != null)
+            if (UIController.instance.theShop != null)
             {
-                if(UIController.instance.theShop.gameObject.activeSelf == true)
+                if (UIController.instance.theShop.gameObject.activeSelf == true)
                 {
                     theRB.linearVelocity = Vector2.zero;
 
@@ -84,9 +85,9 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if(UIController.instance.pauseScreen != null)
+            if (UIController.instance.pauseScreen != null)
             {
-                if(UIController.instance.pauseScreen.gameObject.activeSelf == true)
+                if (UIController.instance.pauseScreen.gameObject.activeSelf == true)
                 {
                     theRB.linearVelocity = Vector2.zero;
 
@@ -118,11 +119,11 @@ public class PlayerController : MonoBehaviour
 
         bool hasSwitchedTool = false;
 
-        if(Keyboard.current.tabKey.wasPressedThisFrame)
+        if (Keyboard.current.tabKey.wasPressedThisFrame)
         {
             currentTool++;
 
-            if((int)currentTool >= 4)
+            if ((int)currentTool >= 4)
             {
                 currentTool = ToolType.plough;
             }
@@ -130,7 +131,7 @@ public class PlayerController : MonoBehaviour
             hasSwitchedTool = true;
         }
 
-        if(Keyboard.current.digit1Key.wasPressedThisFrame)
+        if (Keyboard.current.digit1Key.wasPressedThisFrame)
         {
             currentTool = ToolType.plough;
 
@@ -186,7 +187,8 @@ public class PlayerController : MonoBehaviour
             toolIndicator.position = new Vector3(Mathf.FloorToInt(toolIndicator.position.x) + .5f,
                 Mathf.FloorToInt(toolIndicator.position.y) + .5f,
                 0f);
-        } else
+        }
+        else
         {
             toolIndicator.position = new Vector3(0f, 0f, -20f);
         }
@@ -197,12 +199,12 @@ public class PlayerController : MonoBehaviour
             currentStamina += staminaRegenRate * Time.deltaTime * TimeController.instance.timeSpeed;
             if (currentStamina > maxStamina)
                 currentStamina = maxStamina;
-        
+
             UpdateStaminaUI();
         }
     }
 
-    void UseTool()
+void UseTool()
     {
         GrowBlock block = null;
 
@@ -270,7 +272,7 @@ public class PlayerController : MonoBehaviour
         return false; // Không đủ thể lực
     }
 
-    private void UpdateStaminaUI()
+    public void UpdateStaminaUI()
     {
         // Cập nhật UI thể lực
         if (UIController.instance != null)

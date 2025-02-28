@@ -14,12 +14,20 @@ public class InventoryController : MonoBehaviour
             if (gameObject.activeSelf == false)
             {
                 gameObject.SetActive(true);
+                            if (UIController.instance.staminaBarContainer != null)
+            {
+                UIController.instance.staminaBarContainer.SetActive(false);
+            }
 
                 UpdateDisplay();
             }
             else
             {
                 gameObject.SetActive(false);
+                            if (UIController.instance.staminaBarContainer != null)
+            {
+                UIController.instance.staminaBarContainer.SetActive(true);
+            }
             }
         }
     }
