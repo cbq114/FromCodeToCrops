@@ -24,3 +24,50 @@ Gán các reference trong Inspector
 
 Kéo MessagePanel vào trường messagePanel trong UIController
 Kéo MessageText vào trường messageText trong UIController
+
+
+Bước 1: Tạo UI Panel cho hệ thống nấu ăn
+Trong Unity, tạo UI Panel mới: GameObject → UI → Panel và đặt tên là "CookingPanel"
+Thêm các thành phần:
+Tiêu đề "Nấu Ăn" (Text - TMP)
+Danh sách công thức bên trái (ScrollRect + ContentPanel)
+Chi tiết công thức bên phải
+Nút đóng và nút nấu
+Bước 2: Thiết kế UI chi tiết công thức
+Thêm các thành phần vào panel bên phải:
+
+Image cho hình minh họa món ăn
+Text cho tên món ăn
+Text cho mô tả
+Text cho danh sách nguyên liệu
+Nút "Nấu" với chức năng CookSelectedRecipe()
+Bước 3: Thiết kế UI nút công thức
+Tạo Prefab cho nút công thức:
+
+Button với layout:
+Image cho hình món ăn (RecipeIcon)
+Text cho tên món ăn (RecipeName)
+
+
+Bước 3: Thêm lò nấu ăn vào thế giới game
+Tạo GameObject mới và đặt tên là "Stove"
+Thêm SpriteRenderer với sprite hình lò nấu ăn
+Thêm BoxCollider2D với Is Trigger = true
+
+
+Bước 4: Tạo các công thức mẫu
+Tạo folder Resources/Recipes
+Right-click → Create → Farming Game/Recipe
+Tạo các công thức mẫu:
+Salad Cà Chua
+
+Nguyên liệu: 2 Cà Chua
+Hiệu ứng: +15 Stamina
+Súp Cà Rốt
+
+Nguyên liệu: 3 Cà Rốt
+Hiệu ứng: +25 Stamina, +10% tốc độ di chuyển trong 60 giây
+Bắp Nướng
+
+Nguyên liệu: 2 Bắp
+Hiệu ứng: +20 Stamina, -10% tiêu thụ stamina khi sử dụng công cụ trong 120 giây

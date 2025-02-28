@@ -96,6 +96,17 @@ public class UIController : MonoBehaviour
 		{
 			PauseUnpause();
 		}
+
+		if (Keyboard.current.cKey.wasPressedThisFrame)
+{
+    if (CookingSystem.instance != null)
+    {
+        if (!CookingSystem.instance.cookingPanel.activeSelf)
+            CookingSystem.instance.OpenCookingPanel();
+        else
+            CookingSystem.instance.CloseCookingPanel();
+    }
+}
 	}
 
 	public void SwitchTool(int selected)

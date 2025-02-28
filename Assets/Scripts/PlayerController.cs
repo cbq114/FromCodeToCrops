@@ -280,4 +280,11 @@ void UseTool()
             UIController.instance.UpdateStaminaBar(currentStamina, maxStamina);
         }
     }
+    public void ConsumeItem(Item item)
+{
+    if (item.isConsumable && item.recipe != null)
+    {
+        CookingSystem.instance.ConsumeFood(item.recipe);
+    }
+}
 }
