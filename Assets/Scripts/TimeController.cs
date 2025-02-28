@@ -17,7 +17,7 @@ public class TimeController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-                
+
     }
 
     public float currentTime;
@@ -60,30 +60,45 @@ public class TimeController : MonoBehaviour
         }
     }
 
-    public void EndDay()
+public void EndDay()
+{
+    Debug.Log("Đang thực hiện EndDay");
+    timeActive = false;
+    currentDay++;
+
+    // Thêm this để chắc chắn đúng instance được gọi
+    if (GridInfo.instance != null)
     {
-        timeActive = false;
-
-        currentDay++;
-
         GridInfo.instance.GrowCrop();
-
-        PlayerPrefs.SetString("Transition", "Wake Up");
-
-        //StartDay();
-        SceneManager.LoadScene(dayEndScene);
+    }
+    
+    // Thêm logic cho hệ thống mùa vụ
+    if (SeasonSystem.instance != null)
+    {
+        SeasonSystem.instance.NewDay();
     }
 
-public void StartDay()
-{
-    timeActive = true;
-    currentTime = dayStart;
-    AudioManager.instance.PlaySFX(6);
-    
-    // Thêm kiểm tra thời tiết cho ngày mới
-    if (WeatherSystem.instance != null)
-    {
-        WeatherSystem.instance.CheckWeatherForNewDay();
+    // Kiểm tra xem PlayerPrefs và SceneManager có hoạt động không
+    try {
+        PlayerPrefs.SetString("Transition", "Wake Up");
+        SceneManager.LoadScene(dayEndScene);
+        Debug.Log("Đã load scene mới: " + dayEndScene);
+    }
+    catch (System.Exception e) {
+        Debug.LogError("Lỗi khi chuyển scene: " + e.Message);
     }
 }
+
+    public void StartDay()
+    {
+        timeActive = true;
+        currentTime = dayStart;
+        AudioManager.instance.PlaySFX(6);
+
+        // Thêm kiểm tra thời tiết cho ngày mới
+        if (WeatherSystem.instance != null)
+        {
+            WeatherSystem.instance.CheckWeatherForNewDay();
+        }
+    }
 }

@@ -1,0 +1,26 @@
+Mùa Xuân: Tất cả cây cối phát triển với tốc độ bình thường
+Mùa Hè: Cà chua và ngô phát triển nhanh hơn, nhưng cần nhiều nước hơn
+Mùa Thu: Cà rốt và các loại củ phát triển nhanh hơn
+Mùa Đông: Cây cối phát triển chậm, một số cây không thể trồng
+
+Tạo prefabs hiệu ứng mùa:
+
+Tạo particle system cho tuyết rơi
+Tạo particle system cho lá rơi mùa thu
+Tạo particle system cho bướm mùa xuân
+Thiết kế UI:
+
+Tạo góc hiển thị mùa vụ (với icon và text)
+Thiết kế thông báo chuyển mùa
+Cài đặt Sprite Icon:
+
+Tạo 4 icon đại diện cho 4 mùa
+Import vào project
+Gán vào các trường tương ứng trong SeasonSystem
+Cài đặt Scene:
+
+Đặt SeasonSystem vào Scene
+Gán các reference trong Inspector
+
+Kéo MessagePanel vào trường messagePanel trong UIController
+Kéo MessageText vào trường messageText trong UIController
