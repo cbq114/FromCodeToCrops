@@ -49,10 +49,6 @@ Image cho hình món ăn (RecipeIcon)
 Text cho tên món ăn (RecipeName)
 
 
-Bước 3: Thêm lò nấu ăn vào thế giới game
-Tạo GameObject mới và đặt tên là "Stove"
-Thêm SpriteRenderer với sprite hình lò nấu ăn
-Thêm BoxCollider2D với Is Trigger = true
 
 
 Bước 4: Tạo các công thức mẫu
