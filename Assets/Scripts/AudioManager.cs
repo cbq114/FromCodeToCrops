@@ -99,4 +99,9 @@ private void Update()
 
         PlaySFX(sfxToPlay);
     }
+
+    public void PlayTitleMusic()
+    {
+        titleMusic.Play();
+    }
 }

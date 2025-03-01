@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: aef406cde4b5ca94b88665dc59d5b7fc
+guid: 8c2d5905eb044be4bbae291f947875fa
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4059314915043822300
-    second: icons8-spring-50_0
+      213: -7255154345229648261
+    second: story3_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: icons8-spring-50_0
+      name: story3_0
       rect:
         serializedVersion: 2
-        x: 1
+        x: 0
         y: 0
-        width: 48
-        height: 50
+        width: 1024
+        height: 1024
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4253e59879a6aa7c0800000000000000
-      internalID: -4059314915043822300
+      spriteID: b7e74fdff83805b90800000000000000
+      internalID: -7255154345229648261
       vertices: []
       indices: 
       edges: []
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      icons8-spring-50_0: -4059314915043822300
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
