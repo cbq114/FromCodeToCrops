@@ -97,6 +97,17 @@ public class CropController : MonoBehaviour
 
         }
     }
+
+    public void UseCrop(CropType cropToUse, int amount)
+    {
+        foreach (CropInfo info in cropList)
+        {
+            if (info.cropType == cropToUse)
+            {
+                info.cropAmount -= amount;
+            }
+        }
+    }
 }
 
 [System.Serializable]

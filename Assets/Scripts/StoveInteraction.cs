@@ -1,3 +1,6 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+
 public class StoveInteraction : MonoBehaviour
 {
     private bool playerInRange = false;

@@ -83,7 +83,7 @@ public class CookingSystem : MonoBehaviour
         foreach (RecipeIngredient ingredient in recipe.ingredients)
         {
             int playerHas = CropController.instance.GetCropInfo(ingredient.cropType).cropAmount;
-            ingredientsList += $"- {CropController.instance.GetCropInfo(ingredient.cropType).cropName}: {playerHas}/{ingredient.amount}\n";
+            ingredientsList += $"- {CropController.instance.GetCropInfo(ingredient.cropType)}: {playerHas}/{ingredient.amount}\n";
             
             if (playerHas < ingredient.amount)
                 canCook = false;
