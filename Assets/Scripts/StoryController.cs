@@ -80,8 +80,8 @@ public class StoryController : MonoBehaviour
         continueButton.gameObject.SetActive(false);
 
         bool isTag = false;
-        bool isItalic = false;
-        bool isBold = false;
+        //bool isItalic = false;
+        //bool isBold = false;
 
         foreach (char c in text)
         {

@@ -60,34 +60,36 @@ public class TimeController : MonoBehaviour
         }
     }
 
-public void EndDay()
-{
-    Debug.Log("Đang thực hiện EndDay");
-    timeActive = false;
-    currentDay++;
-
-    // Thêm this để chắc chắn đúng instance được gọi
-    if (GridInfo.instance != null)
+    public void EndDay()
     {
-        GridInfo.instance.GrowCrop();
-    }
-    
-    // Thêm logic cho hệ thống mùa vụ
-    if (SeasonSystem.instance != null)
-    {
-        SeasonSystem.instance.NewDay();
-    }
+        Debug.Log("Đang thực hiện EndDay");
+        timeActive = false;
+        currentDay++;
 
-    // Kiểm tra xem PlayerPrefs và SceneManager có hoạt động không
-    try {
-        PlayerPrefs.SetString("Transition", "Wake Up");
-        SceneManager.LoadScene(dayEndScene);
-        Debug.Log("Đã load scene mới: " + dayEndScene);
+        // Thêm this để chắc chắn đúng instance được gọi
+        if (GridInfo.instance != null)
+        {
+            GridInfo.instance.GrowCrop();
+        }
+
+        // Thêm logic cho hệ thống mùa vụ
+        if (SeasonSystem.instance != null)
+        {
+            SeasonSystem.instance.NewDay();
+        }
+
+        // Kiểm tra xem PlayerPrefs và SceneManager có hoạt động không
+        try
+        {
+            PlayerPrefs.SetString("Transition", "Wake Up");
+            SceneManager.LoadScene(dayEndScene);
+            Debug.Log("Đã load scene mới: " + dayEndScene);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Lỗi khi chuyển scene: " + e.Message);
+        }
     }
-    catch (System.Exception e) {
-        Debug.LogError("Lỗi khi chuyển scene: " + e.Message);
-    }
-}
 
     public void StartDay()
     {
@@ -100,5 +102,22 @@ public void EndDay()
         {
             WeatherSystem.instance.CheckWeatherForNewDay();
         }
+
+        // Cơ hội tìm thấy thức ăn thú cưng mỗi ngày mới
+        if (Random.value < 0.3f) // 30% cơ hội mỗi ngày
+        {
+            PetMenuController petMenu = FindObjectOfType<PetMenuController>();
+            if (petMenu != null)
+                petMenu.AddPetFood(1);
+        }
     }
+
+    private void OnNewDay()
+{
+    // Các code hiện tại của OnNewDay
+    
+    // Thêm dòng này để tự động lưu khi sang ngày mới
+    if (SaveManager.instance != null)
+        SaveManager.instance.SaveGame();
+}
 }

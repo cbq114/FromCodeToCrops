@@ -1,0 +1,1480 @@
+fileFormatVersion: 2
+guid: a95f5d99026d69440bf4684e5a953fb1
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3250871135468327974
+    second: Tabby Markings 000_0
+  - first:
+      213: 8768380861586298881
+    second: Tabby Markings 000_1
+  - first:
+      213: 9145094381953115064
+    second: Tabby Markings 000_2
+  - first:
+      213: -7113593223845076296
+    second: Tabby Markings 000_3
+  - first:
+      213: -2371528920510939461
+    second: Tabby Markings 000_4
+  - first:
+      213: -4089586452697963
+    second: Tabby Markings 000_5
+  - first:
+      213: 8741181899256426282
+    second: Tabby Markings 000_6
+  - first:
+      213: 2117975290760276942
+    second: Tabby Markings 000_7
+  - first:
+      213: 2286106918801260228
+    second: Tabby Markings 000_8
+  - first:
+      213: 7264074153932759668
+    second: Tabby Markings 000_9
+  - first:
+      213: -7886233607747371910
+    second: Tabby Markings 000_10
+  - first:
+      213: 3223416745365842113
+    second: Tabby Markings 000_11
+  - first:
+      213: -4239818195502918038
+    second: Tabby Markings 000_12
+  - first:
+      213: 439532430114661373
+    second: Tabby Markings 000_13
+  - first:
+      213: -4915951963572270911
+    second: Tabby Markings 000_14
+  - first:
+      213: -1154556238419871602
+    second: Tabby Markings 000_15
+  - first:
+      213: -4467057666027065673
+    second: Tabby Markings 000_16
+  - first:
+      213: -7643968650081743366
+    second: Tabby Markings 000_17
+  - first:
+      213: 771125721864632570
+    second: Tabby Markings 000_18
+  - first:
+      213: 3018829038723600269
+    second: Tabby Markings 000_19
+  - first:
+      213: 9144089816017929578
+    second: Tabby Markings 000_20
+  - first:
+      213: 3037920004698740666
+    second: Tabby Markings 000_21
+  - first:
+      213: 5021692630330874041
+    second: Tabby Markings 000_22
+  - first:
+      213: -6656542215637120910
+    second: Tabby Markings 000_23
+  - first:
+      213: -1086045774062483341
+    second: Tabby Markings 000_24
+  - first:
+      213: 2967362492434285753
+    second: Tabby Markings 000_25
+  - first:
+      213: -1044398260617085181
+    second: Tabby Markings 000_26
+  - first:
+      213: -1145439168791243537
+    second: Tabby Markings 000_27
+  - first:
+      213: -6525898901468280208
+    second: Tabby Markings 000_28
+  - first:
+      213: -6267798597937870915
+    second: Tabby Markings 000_29
+  - first:
+      213: 1357261444343957433
+    second: Tabby Markings 000_30
+  - first:
+      213: -2079666136889502113
+    second: Tabby Markings 000_31
+  - first:
+      213: -2056851351922022570
+    second: Tabby Markings 000_32
+  - first:
+      213: 6164148096187449163
+    second: Tabby Markings 000_33
+  - first:
+      213: 3412969461275906447
+    second: Tabby Markings 000_34
+  - first:
+      213: 8174000940586863895
+    second: Tabby Markings 000_35
+  - first:
+      213: -2761965629827208187
+    second: Tabby Markings 000_36
+  - first:
+      213: -5194930011010283215
+    second: Tabby Markings 000_37
+  - first:
+      213: 1044680223883479230
+    second: Tabby Markings 000_38
+  - first:
+      213: 3778550437137278849
+    second: Tabby Markings 000_39
+  - first:
+      213: 232086429351492406
+    second: Tabby Markings 000_40
+  - first:
+      213: -4810017369791160959
+    second: Tabby Markings 000_41
+  - first:
+      213: 5359741482186073689
+    second: Tabby Markings 000_42
+  - first:
+      213: 5628895044949478441
+    second: Tabby Markings 000_43
+  - first:
+      213: 6086510446915610985
+    second: Tabby Markings 000_44
+  - first:
+      213: 6742135872561563704
+    second: Tabby Markings 000_45
+  - first:
+      213: 8887106810929427308
+    second: Tabby Markings 000_46
+  - first:
+      213: 1315777052350793348
+    second: Tabby Markings 000_47
+  - first:
+      213: -4623135828724537673
+    second: Tabby Markings 000_48
+  - first:
+      213: 522611867487107023
+    second: Tabby Markings 000_49
+  - first:
+      213: 3178932170237592994
+    second: Tabby Markings 000_50
+  - first:
+      213: -5373280792344791193
+    second: Tabby Markings 000_51
+  - first:
+      213: 6493299045864788064
+    second: Tabby Markings 000_52
+  - first:
+      213: -1116162741044228191
+    second: Tabby Markings 000_53
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Tabby Markings 000_0
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 238
+        width: 84
+        height: 272
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: adbe6d71de592e2d0800000000000000
+      internalID: -3250871135468327974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_1
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 303
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1085f2ecfeb8fa970800000000000000
+      internalID: 8768380861586298881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_2
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 303
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b36cb933e6e9ee70800000000000000
+      internalID: 9145094381953115064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_3
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 4
+        width: 669
+        height: 507
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b2a61007a0774d90800000000000000
+      internalID: -7113593223845076296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_4
+      rect:
+        serializedVersion: 2
+        x: 141
+        y: 300
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bbe316ef203a61fd0800000000000000
+      internalID: -2371528920510939461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_5
+      rect:
+        serializedVersion: 2
+        x: 395
+        y: 301
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59c6534fa8871fff0800000000000000
+      internalID: -4089586452697963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_6
+      rect:
+        serializedVersion: 2
+        x: 427
+        y: 302
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2fe046ef9aee4970800000000000000
+      internalID: 8741181899256426282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_7
+      rect:
+        serializedVersion: 2
+        x: 459
+        y: 301
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ecb22d03e4f846d10800000000000000
+      internalID: 2117975290760276942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_8
+      rect:
+        serializedVersion: 2
+        x: 491
+        y: 302
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ce36bd5122e9bf10800000000000000
+      internalID: 2286106918801260228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_9
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 303
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 472224fc4fc2fc460800000000000000
+      internalID: 7264074153932759668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_10
+      rect:
+        serializedVersion: 2
+        x: 586
+        y: 304
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7c787a11587e8290800000000000000
+      internalID: -7886233607747371910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_11
+      rect:
+        serializedVersion: 2
+        x: 618
+        y: 306
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c8a3969370ebbc20800000000000000
+      internalID: 3223416745365842113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_12
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 303
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a669fc090d32925c0800000000000000
+      internalID: -4239818195502918038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_13
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 273
+        width: 25
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df3af3c9a68891600800000000000000
+      internalID: 439532430114661373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_14
+      rect:
+        serializedVersion: 2
+        x: 650
+        y: 272
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c804662cb707cbb0800000000000000
+      internalID: -4915951963572270911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_15
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 273
+        width: 18
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e88b5cfd7313affe0800000000000000
+      internalID: -1154556238419871602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_16
+      rect:
+        serializedVersion: 2
+        x: 709
+        y: 272
+        width: 25
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7be654168b2d102c0800000000000000
+      internalID: -4467057666027065673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_17
+      rect:
+        serializedVersion: 2
+        x: 742
+        y: 273
+        width: 25
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: afdc7a1230b2be590800000000000000
+      internalID: -7643968650081743366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_18
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 238
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af878e822c693ba00800000000000000
+      internalID: 771125721864632570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_19
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 236
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8f01ca240905e920800000000000000
+      internalID: 3018829038723600269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_20
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 228
+        width: 9
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a65040e7d3556ee70800000000000000
+      internalID: 9144089816017929578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_21
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 228
+        width: 9
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab71f10162cd82a20800000000000000
+      internalID: 3037920004698740666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_22
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 228
+        width: 9
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b8911a57d2a0b540800000000000000
+      internalID: 5021692630330874041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_23
+      rect:
+        serializedVersion: 2
+        x: 235
+        y: 228
+        width: 9
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 278ce8c6f163f93a0800000000000000
+      internalID: -6656542215637120910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_24
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 228
+        width: 9
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37801336f179de0f0800000000000000
+      internalID: -1086045774062483341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_25
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 227
+        width: 9
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b40d5117703e2920800000000000000
+      internalID: 2967362492434285753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_26
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 226
+        width: 9
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30ff1efb05d8181f0800000000000000
+      internalID: -1044398260617085181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_27
+      rect:
+        serializedVersion: 2
+        x: 363
+        y: 225
+        width: 9
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe4116015259a10f0800000000000000
+      internalID: -1145439168791243537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_28
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 203
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07a0fd956895f65a0800000000000000
+      internalID: -6525898901468280208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_29
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 199
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db7c836226e4409a0800000000000000
+      internalID: -6267798597937870915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_30
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 196
+        width: 9
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b78471b716f5d210800000000000000
+      internalID: 1357261444343957433
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_31
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 196
+        width: 9
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f56da43caaa8323e0800000000000000
+      internalID: -2079666136889502113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_32
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 192
+        width: 9
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 657e7e4d7989473e0800000000000000
+      internalID: -2056851351922022570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_33
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 192
+        width: 9
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4f3720d8047b8550800000000000000
+      internalID: 6164148096187449163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_34
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 192
+        width: 9
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f815b9074ad4d5f20800000000000000
+      internalID: 3412969461275906447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_35
+      rect:
+        serializedVersion: 2
+        x: 363
+        y: 192
+        width: 9
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71d83693c82ef6170800000000000000
+      internalID: 8174000940586863895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_36
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 8
+        width: 84
+        height: 175
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50caf48a4e68ba9d0800000000000000
+      internalID: -2761965629827208187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_37
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 170
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13947bccda6e7e7b0800000000000000
+      internalID: -5194930011010283215
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_38
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 170
+        width: 19
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb84370f0237f7e00800000000000000
+      internalID: 1044680223883479230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_39
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 171
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 187e67b5a9b107430800000000000000
+      internalID: 3778550437137278849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_40
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 173
+        width: 16
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63b3faab069883300800000000000000
+      internalID: 232086429351492406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_41
+      rect:
+        serializedVersion: 2
+        x: 422
+        y: 174
+        width: 15
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18d932ecfa26f3db0800000000000000
+      internalID: -4810017369791160959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_42
+      rect:
+        serializedVersion: 2
+        x: 453
+        y: 173
+        width: 16
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95660ad1b70a16a40800000000000000
+      internalID: 5359741482186073689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_43
+      rect:
+        serializedVersion: 2
+        x: 486
+        y: 174
+        width: 15
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92c8b20683add1e40800000000000000
+      internalID: 5628895044949478441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_44
+      rect:
+        serializedVersion: 2
+        x: 526
+        y: 175
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 969eb16f001a77450800000000000000
+      internalID: 6086510446915610985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_45
+      rect:
+        serializedVersion: 2
+        x: 580
+        y: 176
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 838437fcad0e09d50800000000000000
+      internalID: 6742135872561563704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_46
+      rect:
+        serializedVersion: 2
+        x: 610
+        y: 177
+        width: 20
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6337620f88555b70800000000000000
+      internalID: 8887106810929427308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_47
+      rect:
+        serializedVersion: 2
+        x: 654
+        y: 177
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 486caf00244924210800000000000000
+      internalID: 1315777052350793348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_48
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 175
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b62e7c457257dfb0800000000000000
+      internalID: -4623135828724537673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_49
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 145
+        width: 25
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc7f8fc79b0b04700800000000000000
+      internalID: 522611867487107023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_50
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 144
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a5c21457f5dd1c20800000000000000
+      internalID: 3178932170237592994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_51
+      rect:
+        serializedVersion: 2
+        x: 676
+        y: 145
+        width: 18
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 767fbd596954e65b0800000000000000
+      internalID: -5373280792344791193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_52
+      rect:
+        serializedVersion: 2
+        x: 706
+        y: 144
+        width: 25
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06057294415dc1a50800000000000000
+      internalID: 6493299045864788064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tabby Markings 000_53
+      rect:
+        serializedVersion: 2
+        x: 737
+        y: 145
+        width: 25
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1af488496e79280f0800000000000000
+      internalID: -1116162741044228191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable: {}
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -25,6 +25,11 @@ public class PlayerController : MonoBehaviour
 
     public Animator anim;
     public InventoryController theIC;
+
+    [Header("Pet Interaction")]
+    public PetMenuController petMenuController;
+    public float petInteractionDistance = 2f; // Khoảng cách để tương tác với pet
+    private bool isNearPet = false;
     public enum ToolType
     {
         plough,
@@ -65,6 +70,10 @@ public class PlayerController : MonoBehaviour
 
         if (UIController.instance != null)
         {
+            if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
             if (UIController.instance.theIC != null)
             {
                 if (UIController.instance.theIC.gameObject.activeSelf == true)
@@ -91,6 +100,15 @@ public class PlayerController : MonoBehaviour
                 {
                     theRB.linearVelocity = Vector2.zero;
 
+                    return;
+                }
+            }
+
+            if (petMenuController != null && petMenuController.petMenuPanel != null)
+            {
+                if (petMenuController.petMenuPanel.activeSelf)
+                {
+                    theRB.linearVelocity = Vector2.zero;
                     return;
                 }
             }
@@ -164,6 +182,7 @@ public class PlayerController : MonoBehaviour
         }
 
 
+
         anim.SetFloat("speed", theRB.linearVelocity.magnitude);
 
         if (GridController.instance != null)
@@ -202,9 +221,28 @@ public class PlayerController : MonoBehaviour
 
             UpdateStaminaUI();
         }
+
+        CheckPetProximity();
+        // Thêm tương tác thú cưng
+        if (isNearPet && Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            if (petMenuController != null)
+                petMenuController.TogglePetMenu();
+            else
+                Debug.LogWarning("Pet Menu Controller chưa được gán trong Inspector!");
+        }
+
+        // Giữ lại tính năng nhấn P để mở menu thú cưng từ xa
+        if (Keyboard.current.pKey.wasPressedThisFrame)
+        {
+            if (petMenuController != null)
+                petMenuController.TogglePetMenu();
+            else
+                Debug.LogWarning("Pet Menu Controller chưa được gán trong Inspector!");
+        }
     }
 
-void UseTool()
+    void UseTool()
     {
         GrowBlock block = null;
 
@@ -216,9 +254,9 @@ void UseTool()
 
         toolWaitCounter = toolWaitTime;
 
-        if(block != null)
+        if (block != null)
         {
-            switch(currentTool)
+            switch (currentTool)
             {
                 case ToolType.plough:
 
@@ -281,10 +319,53 @@ void UseTool()
         }
     }
     public void ConsumeItem(Item item)
-{
-    if (item.isConsumable && item.recipe != null)
     {
-        CookingSystem.instance.ConsumeFood(item.recipe);
+        if (item.isConsumable && item.recipe != null)
+        {
+            CookingSystem.instance.ConsumeFood(item.recipe);
+        }
     }
-}
+    public void ApplyPetBonuses()
+    {
+        if (PetSystem.instance != null)
+        {
+            // Hồi thể lực nhanh hơn dựa trên tình cảm với thú cưng
+            float staminaBonus = (PetSystem.instance.staminaBoostPercentage / 100f) * staminaRegenRate;
+            float actualRegenRate = staminaRegenRate + staminaBonus;
+
+            // Áp dụng hồi phục thể lực nhanh hơn
+            if (currentStamina < maxStamina)
+            {
+                currentStamina += actualRegenRate * Time.deltaTime;
+
+                if (currentStamina > maxStamina)
+                    currentStamina = maxStamina;
+
+                UpdateStaminaUI();
+            }
+        }
+    }
+
+    private void CheckPetProximity()
+    {
+        if (PetSystem.instance != null && PetSystem.instance.activePet != null)
+        {
+            float distanceToPet = Vector3.Distance(transform.position, PetSystem.instance.activePet.transform.position);
+            isNearPet = distanceToPet <= petInteractionDistance;
+
+            // Hiển thị gợi ý nếu ở gần pet
+            if (UIController.instance != null && UIController.instance.interactionHint != null)
+            {
+                if (isNearPet)
+                {
+                    UIController.instance.interactionHint.SetActive(true);
+                    UIController.instance.interactionHintText.text = "Nhấn E để tương tác với thú cưng";
+                }
+                else if (UIController.instance.interactionHint.activeSelf)
+                {
+                    UIController.instance.interactionHint.SetActive(false);
+                }
+            }
+        }
+    }
 }

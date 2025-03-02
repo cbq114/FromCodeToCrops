@@ -7,11 +7,12 @@ public class CropController : MonoBehaviour
 
     private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-        } else
+        }
+        else
         {
             Destroy(gameObject);
         }
@@ -25,7 +26,7 @@ public class CropController : MonoBehaviour
         hay,
         potato,
         strawberry,
-        tomato, 
+        tomato,
         avocado
     }
 
@@ -36,7 +37,7 @@ public class CropController : MonoBehaviour
     {
         int position = -1;
 
-        for(int i = 0; i < cropList.Count; i++)
+        for (int i = 0; i < cropList.Count; i++)
         {
             if (cropList[i].cropType == cropToGet)
             {
@@ -44,10 +45,11 @@ public class CropController : MonoBehaviour
             }
         }
 
-        if(position >= 0)
+        if (position >= 0)
         {
             return cropList[position];
-        } else
+        }
+        else
         {
             return null;
         }
@@ -55,9 +57,9 @@ public class CropController : MonoBehaviour
 
     public void UseSeed(CropType seedToUse)
     {
-        foreach(CropInfo info in cropList)
+        foreach (CropInfo info in cropList)
         {
-            if(info.cropType == seedToUse)
+            if (info.cropType == seedToUse)
             {
                 info.seedAmount--;
             }
@@ -77,9 +79,9 @@ public class CropController : MonoBehaviour
 
     public void AddSeed(CropType seedToAdd, int amount)
     {
-        foreach(CropInfo info in cropList)
+        foreach (CropInfo info in cropList)
         {
-            if(info.cropType == seedToAdd)
+            if (info.cropType == seedToAdd)
             {
                 info.seedAmount += amount;
             }
@@ -105,6 +107,29 @@ public class CropController : MonoBehaviour
             if (info.cropType == cropToUse)
             {
                 info.cropAmount -= amount;
+            }
+        }
+    }
+    public void SetSeedAmount(CropType cropType, int amount)
+    {
+        foreach (CropInfo info in cropList)
+        {
+            if (info.cropType == cropType)
+            {
+                info.seedAmount = amount;
+                break;
+            }
+        }
+    }
+
+    public void SetCropAmount(CropType cropType, int amount)
+    {
+        foreach (CropInfo info in cropList)
+        {
+            if (info.cropType == cropType)
+            {
+                info.cropAmount = amount;
+                break;
             }
         }
     }

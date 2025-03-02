@@ -67,3 +67,36 @@ Bắp Nướng
 
 Nguyên liệu: 2 Bắp
 Hiệu ứng: +20 Stamina, -10% tiêu thụ stamina khi sử dụng công cụ trong 120 giây
+
+Tạo Hiệu Ứng Hạt Trái Tim:
+
+Tạo GameObject mới → Add Component → Particle System
+Điều chỉnh Particle System để tạo hiệu ứng hạt nhỏ hình trái tim
+Lưu thành prefab
+Gán vào trường affectionParticle trong PetSystem
+Tạo Biểu Tượng Mức Độ Thân Thiết:
+
+Tạo 6 sprites (0-5) hiển thị các trạng thái tình cảm khác nhau
+Import vào project
+Gán vào mảng affectionIcons trong Inspector
+Bước 7: Cài Đặt Trong Scene
+Đặt các GameObject vào scene:
+
+Kéo PetSystem script vào một GameObject mới, đặt tên "PetManager"
+Đặt PetMenuController vào Canvas UI
+Gán PetPrefab vào trường tương ứng trong PetSystem
+Cấu hình trong Inspector:
+
+Gán tất cả tham chiếu cần thiết trong PetSystem
+Đảm bảo Canvas UI được thiết lập đúng
+
+Bước 7: Cài Đặt Trong Scene
+Đặt các GameObject vào scene:
+
+Kéo PetSystem script vào một GameObject mới, đặt tên "PetManager"
+Đặt PetMenuController vào Canvas UI
+Gán PetPrefab vào trường tương ứng trong PetSystem
+Cấu hình trong Inspector:
+
+Gán tất cả tham chiếu cần thiết trong PetSystem
+Đảm bảo Canvas UI được thiết lập đúng

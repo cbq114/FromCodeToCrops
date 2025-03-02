@@ -21,6 +21,10 @@ public class UIController : MonoBehaviour
 		}
 	}
 
+	[Header("Interaction UI")]
+	public GameObject interactionHint;
+	public TMP_Text interactionHintText;
+
 	public GameObject[] toolbarActivatorIcons;
 
 	public TMP_Text timeText;
@@ -98,15 +102,15 @@ public class UIController : MonoBehaviour
 		}
 
 		if (Keyboard.current.cKey.wasPressedThisFrame)
-{
-    if (CookingSystem.instance != null)
-    {
-        if (!CookingSystem.instance.cookingPanel.activeSelf)
-            CookingSystem.instance.OpenCookingPanel();
-        else
-            CookingSystem.instance.CloseCookingPanel();
-    }
-}
+		{
+			if (CookingSystem.instance != null)
+			{
+				if (!CookingSystem.instance.cookingPanel.activeSelf)
+					CookingSystem.instance.OpenCookingPanel();
+				else
+					CookingSystem.instance.CloseCookingPanel();
+			}
+		}
 	}
 
 	public void SwitchTool(int selected)
@@ -252,6 +256,32 @@ public class UIController : MonoBehaviour
 
 		messagePanel.SetActive(false);
 		messageCoroutine = null;
+	}
+
+	public void SaveGameButton()
+	{
+		if (SaveManager.instance != null)
+		{
+			SaveManager.instance.SaveGame();
+		}
+		else
+		{
+			Debug.LogError("SaveManager.instance is null! Make sure there's a SaveManager in the scene.");
+			ShowMessage("Không thể lưu game: SaveManager không tồn tại!");
+		}
+	}
+
+	public void LoadGameButton()
+	{
+		if (SaveManager.instance != null)
+		{
+			SaveManager.instance.LoadGame();
+		}
+		else
+		{
+			Debug.LogError("SaveManager.instance is null! Make sure there's a SaveManager in the scene.");
+			ShowMessage("Không thể tải game: SaveManager không tồn tại!");
+		}
 	}
 
 
