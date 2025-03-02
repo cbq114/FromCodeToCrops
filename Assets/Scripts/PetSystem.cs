@@ -5,6 +5,9 @@ public class PetSystem : MonoBehaviour
 {
     public static PetSystem instance;
 
+    [Header("Following Settings")]
+    public bool isFollowing = true;
+
     [Header("Pet Settings")]
     public GameObject petPrefab;
     public GameObject activePet;
@@ -54,36 +57,59 @@ public class PetSystem : MonoBehaviour
         lastPosition = activePet.transform.position; // Khởi tạo vị trí ban đầu
     }
 
-    void Update()
+private void Update()
+{
+    if (activePet != null && playerTransform != null)
     {
-        if (activePet != null && playerTransform != null)
+        if (isFollowing)
         {
             FollowPlayer();
-            CheckMovementAndDirection(); // Kiểm tra di chuyển và hướng
-
-            if (canFindItems && Time.time > nextSearchTime)
+            CheckMovementAndDirection();
+        }
+        else
+        {
+            // Pet ở yên một chỗ
+            if (petAnimator != null)
             {
-                CheckForItems();
+                petAnimator.SetBool("IsMoving", false);
+                
+                petIdleTimer += Time.deltaTime;
+                if (petIdleTimer > 3f)
+                {
+                    petAnimator.SetTrigger("PlayIdle");
+                    petIdleTimer = 0;
+                }
             }
         }
+        
+        // Thêm kiểm tra đầy đủ trước khi gọi CheckForItems
+        if (canFindItems && Time.time > nextSearchTime && 
+            CropController.instance != null && 
+            MoneyManager.instance != null && 
+            PlayerController.instance != null)
+        {
+            CheckForItems();
+        }
     }
+}
 
     private void FollowPlayer()
     {
         if (activePet == null || playerTransform == null) return;
 
-        // Xác định vị trí mục tiêu (cách người chơi minDistanceToPlayer về phía bên trái)
+        // Nếu không đi theo, không di chuyển
+        if (!isFollowing) return;
+
+        // Mã di chuyển hiện tại giữ nguyên
         Vector3 targetPos = playerTransform.position + new Vector3(-minDistanceToPlayer, 0, 0);
         float distanceToPlayer = Vector3.Distance(activePet.transform.position, playerTransform.position);
 
-        // Điều chỉnh tốc độ nếu pet quá xa
         float currentSpeed = followSpeed;
         if (distanceToPlayer > maxDistanceToPlayer)
         {
             currentSpeed *= 2f;
         }
 
-        // Di chuyển pet
         Vector3 newPos = Vector3.MoveTowards(activePet.transform.position, targetPos, currentSpeed * Time.deltaTime);
         activePet.transform.position = newPos;
     }
@@ -198,43 +224,61 @@ public class PetSystem : MonoBehaviour
         }
     }
 
-    private void CheckForItems()
+private void CheckForItems()
+{
+    // Kiểm tra các singleton cần thiết trước
+    if (CropController.instance == null || MoneyManager.instance == null || 
+        PlayerController.instance == null || UIController.instance == null)
     {
-        if (Random.value < 0.2f)
+        // Hoãn việc kiểm tra thêm một thời gian nếu chưa sẵn sàng
+        nextSearchTime = Time.time + 5f;
+        return;
+    }
+
+    if (Random.value < 0.2f)
+    {
+        int itemType = Random.Range(0, 3);
+        string itemName = "";
+        switch (itemType)
         {
-            int itemType = Random.Range(0, 3);
-            string itemName = "";
-            switch (itemType)
-            {
-                case 0:
+            case 0:
+                if (CropController.instance != null)
+                {
                     CropController.CropType randomCrop = (CropController.CropType)Random.Range(0, System.Enum.GetValues(typeof(CropController.CropType)).Length);
                     CropController.instance.AddSeed(randomCrop, 1);
                     itemName = randomCrop.ToString();
-                    break;
-                case 1:
+                }
+                break;
+            case 1:
+                if (MoneyManager.instance != null)
+                {
                     int coins = Random.Range(1, 5);
                     MoneyManager.instance.AddMoney(coins);
                     itemName = coins + " xu";
-                    break;
-                case 2:
+                }
+                break;
+            case 2:
+                if (PlayerController.instance != null)
+                {
                     float staminaBoost = Random.Range(5f, 10f);
                     PlayerController.instance.currentStamina = Mathf.Min(PlayerController.instance.currentStamina + staminaBoost, PlayerController.instance.maxStamina);
                     PlayerController.instance.UpdateStaminaUI();
                     itemName = "Củ cà rốt nhỏ (+" + staminaBoost + " stamina)";
-                    break;
-            }
-
-            if (UIController.instance != null)
-            {
-                UIController.instance.ShowMessage($"{petName} đã tìm thấy: {itemName}!");
-            }
-
-            if (AudioManager.instance != null)
-                AudioManager.instance.PlaySFX(5);
+                }
+                break;
         }
 
-        nextSearchTime = Time.time + Random.Range(60f, 180f);
+        if (UIController.instance != null)
+        {
+            UIController.instance.ShowMessage($"{petName} đã tìm thấy: {itemName}!");
+        }
+
+        if (AudioManager.instance != null)
+            AudioManager.instance.PlaySFX(5);
     }
+
+    nextSearchTime = Time.time + Random.Range(60f, 180f);
+}
 
     public void PetInteraction()
     {
@@ -265,16 +309,37 @@ public class PetSystem : MonoBehaviour
 
     private void LoadPetData()
     {
+        if (PlayerPrefs.HasKey("PetIsFollowing"))
+            isFollowing = PlayerPrefs.GetInt("PetIsFollowing") == 1;
+
         if (PlayerPrefs.HasKey("PetName"))
         {
             petName = PlayerPrefs.GetString("PetName");
             affectionLevel = PlayerPrefs.GetInt("PetAffection");
+
         }
         else
         {
             petName = "Buddy";
             affectionLevel = 0;
             SavePetData();
+        }
+    }
+
+    public void ToggleFollowing()
+    {
+        isFollowing = !isFollowing;
+
+        // Lưu trạng thái
+        PlayerPrefs.SetInt("PetIsFollowing", isFollowing ? 1 : 0);
+        PlayerPrefs.Save();
+
+        // Hiển thị thông báo
+        if (UIController.instance != null)
+        {
+            UIController.instance.ShowMessage(isFollowing ?
+                $"{petName} sẽ đi theo bạn." :
+                $"{petName} sẽ ở yên tại chỗ.");
         }
     }
 }

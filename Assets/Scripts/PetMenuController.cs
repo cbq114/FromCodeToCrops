@@ -13,6 +13,11 @@ public class PetMenuController : MonoBehaviour
     public TMP_Text petNameText;
     public TMP_Text affectionLevelText;
     public Image affectionImage;
+    public Button followButton;
+    public TMP_Text followButtonText;
+    public Sprite followIcon;
+    public Sprite stayIcon;
+
 
     [Header("Rename Menu")]
     public GameObject renamePanel;
@@ -42,12 +47,16 @@ public class PetMenuController : MonoBehaviour
         renameButton.onClick.AddListener(OnRenameButtonClick);
         closeButton.onClick.AddListener(ClosePetMenu);
 
+        followButton.onClick.AddListener(OnFollowButtonClick);
+    
+
         confirmNameButton.onClick.AddListener(ConfirmNewName);
         cancelNameButton.onClick.AddListener(() => renamePanel.SetActive(false));
 
         // Tải lượng thức ăn thú cưng
         LoadPetFoodCount();
         UpdateFoodCountUI();
+        UpdateFollowButtonUI();
     }
 
     void Update()
@@ -116,6 +125,8 @@ public class PetMenuController : MonoBehaviour
 
             // Cập nhật trạng thái nút thức ăn
             feedButton.interactable = petFoodCount > 0;
+
+            UpdateFollowButtonUI();
         }
     }
 
@@ -225,5 +236,28 @@ public class PetMenuController : MonoBehaviour
 
         if (feedButton != null)
             feedButton.interactable = petFoodCount > 0;
+    }
+    private void OnFollowButtonClick()
+    {
+        if (PetSystem.instance != null)
+        {
+            PetSystem.instance.ToggleFollowing();
+            UpdateFollowButtonUI();
+        }
+    }
+    private void UpdateFollowButtonUI()
+    {
+        if (PetSystem.instance != null && followButtonText != null)
+        {
+            bool isFollowing = PetSystem.instance.isFollowing;
+            followButtonText.text = isFollowing ? "Ở Yên" : "Đi Theo";
+
+            // Nếu bạn muốn thay đổi cả icon
+            Image buttonImage = followButton.GetComponent<Image>();
+            if (buttonImage != null && followIcon != null && stayIcon != null)
+            {
+                buttonImage.sprite = isFollowing ? stayIcon : followIcon;
+            }
+        }
     }
 }

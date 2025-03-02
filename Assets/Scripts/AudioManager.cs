@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -31,20 +32,20 @@ public class AudioManager : MonoBehaviour
         currentTrack = -1;
     }
 
-private void Update()
-{
-    if (isPaused == false && currentTrack >= 0 && currentTrack < bgMusic.Length)
+    private void Update()
     {
-        if (bgMusic[currentTrack].isPlaying == false)
+        if (isPaused == false && currentTrack >= 0 && currentTrack < bgMusic.Length)
         {
-            PlayNextBGM();
+            if (bgMusic[currentTrack].isPlaying == false)
+            {
+                PlayNextBGM();
+            }
         }
     }
-}
 
     public void StopMusic()
     {
-        foreach(AudioSource track in bgMusic)
+        foreach (AudioSource track in bgMusic)
         {
             track.Stop();
         }
@@ -65,7 +66,7 @@ private void Update()
 
         currentTrack++;
 
-        if(currentTrack >= bgMusic.Length)
+        if (currentTrack >= bgMusic.Length)
         {
             currentTrack = 0;
         }
@@ -103,5 +104,53 @@ private void Update()
     public void PlayTitleMusic()
     {
         titleMusic.Play();
+    }
+
+    public void StopAllMusic()
+    {
+        // Dừng tất cả AudioSource đang phát nhạc nền
+        foreach (AudioSource track in bgMusic)
+        {
+            track.Stop();
+        }
+
+        // Dừng nhạc title
+        if (titleMusic != null)
+        {
+            titleMusic.Stop();
+        }
+    }
+
+    // Thêm vào AudioManager.cs
+    private void OnEnable()
+    {
+        // Đăng ký sự kiện khi scene được tải
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        // Hủy đăng ký khi không cần thiết nữa
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Tự động chọn nhạc phù hợp cho mỗi scene
+        StopAllMusic();
+
+        switch (scene.name)
+        {
+            case "MainMenu":
+                PlayTitle();
+                break;
+            case "StoryInfo":
+                PlayTitleMusic(); // hoặc nhạc riêng cho story
+                break;
+            case "Main": // Game chính
+                PlayNextBGM();
+                break;
+                // Thêm các scene khác nếu cần
+        }
     }
 }

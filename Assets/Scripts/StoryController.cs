@@ -54,7 +54,8 @@ public class StoryController : MonoBehaviour
         // Phát nhạc nếu có
         if (AudioManager.instance != null)
         {
-            AudioManager.instance.PlayTitleMusic();
+            AudioManager.instance.StopAllMusic();
+            AudioManager.instance.PlayTitleMusic(); // hoặc nhạc riêng cho story
         }
     }
 
@@ -191,26 +192,31 @@ public class StoryController : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             Debug.LogWarning("fadePanel không được gán trong Inspector");
         }
+        // Dừng nhạc story trước khi chuyển scene
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.StopAllMusic();
+        }
 
         // Vẫn chuyển scene ngay cả khi không có fadePanel
         SceneManager.LoadScene(nextSceneName);
     }
-private void TransitionBackground(int pageIndex)
-{
-    StartCoroutine(FadeBackground(pageIndex));
-    
-    // Đặt thứ tự đúng sau khi chuyển hình nền
-    foreach (Image img in backgroundImages)
+    private void TransitionBackground(int pageIndex)
     {
-        // Đặt hình nền xuống dưới cùng trong hierarchy
-        img.transform.SetAsFirstSibling();
+        StartCoroutine(FadeBackground(pageIndex));
+
+        // Đặt thứ tự đúng sau khi chuyển hình nền
+        foreach (Image img in backgroundImages)
+        {
+            // Đặt hình nền xuống dưới cùng trong hierarchy
+            img.transform.SetAsFirstSibling();
+        }
+
+        // Đảm bảo text và nút luôn ở trên cùng
+        storyText.transform.SetAsLastSibling();
+        continueButton.transform.SetAsLastSibling();
+        skipButton.transform.SetAsLastSibling();
     }
-    
-    // Đảm bảo text và nút luôn ở trên cùng
-    storyText.transform.SetAsLastSibling();
-    continueButton.transform.SetAsLastSibling();
-    skipButton.transform.SetAsLastSibling();
-}
 
     private IEnumerator FadeBackground(int index)
     {

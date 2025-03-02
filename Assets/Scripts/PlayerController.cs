@@ -242,57 +242,56 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void UseTool()
+ void UseTool()
+{
+    GrowBlock block = null;
+
+    block = GridController.instance.GetBlock(toolIndicator.position.x - .5f, toolIndicator.position.y - .5f);
+
+    toolWaitCounter = toolWaitTime;
+
+    if (block != null)
     {
-        GrowBlock block = null;
-
-        //block = FindFirstObjectByType<GrowBlock>();
-
-        //block.PloughSoil();
-
-        block = GridController.instance.GetBlock(toolIndicator.position.x - .5f, toolIndicator.position.y - .5f);
-
-        toolWaitCounter = toolWaitTime;
-
-        if (block != null)
+        // Kiểm tra stamina trước khi thực hiện hành động
+        if (!UseStamina(staminaUsePerAction))
         {
-            switch (currentTool)
-            {
-                case ToolType.plough:
+            // Không đủ stamina, hiển thị thông báo
+            if (UIController.instance != null)
+                UIController.instance.ShowMessage("Không đủ thể lực!");
+                
+            // Phát âm thanh thông báo lỗi nếu có
+            if (AudioManager.instance != null)
+                AudioManager.instance.PlaySFX(7); // Giả sử 7 là âm thanh lỗi
+                
+            return; // Không thực hiện hành động nếu không đủ stamina
+        }
 
-                    block.PloughSoil();
+        switch (currentTool)
+        {
+            case ToolType.plough:
+                block.PloughSoil();
+                anim.SetTrigger("usePlough");
+                break;
 
-                    anim.SetTrigger("usePlough");
+            case ToolType.wateringCan:
+                block.WaterSoil();
+                anim.SetTrigger("useWateringCan");
+                break;
 
-                    break;
+            case ToolType.seeds:
+                if (CropController.instance.GetCropInfo(seedCropType).seedAmount > 0)
+                {
+                    block.PlantCrop(seedCropType);
+                    //CropController.instance.UseSeed(seedCropType);
+                }
+                break;
 
-                case ToolType.wateringCan:
-
-                    block.WaterSoil();
-
-                    anim.SetTrigger("useWateringCan");
-
-                    break;
-
-                case ToolType.seeds:
-
-                    if (CropController.instance.GetCropInfo(seedCropType).seedAmount > 0)
-                    {
-                        block.PlantCrop(seedCropType);
-
-                        //CropController.instance.UseSeed(seedCropType);
-                    }
-
-                    break;
-
-                case ToolType.basket:
-
-                    block.HarvestCrop();
-
-                    break;
-            }
+            case ToolType.basket:
+                block.HarvestCrop();
+                break;
         }
     }
+}
 
     public void SwitchSeed(CropController.CropType newSeed)
     {

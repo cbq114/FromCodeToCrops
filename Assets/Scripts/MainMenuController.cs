@@ -10,16 +10,16 @@ public class MainMenuController : MonoBehaviour
 
     private void Start()
     {
-        AudioManager.instance.PlayTitle();
+        AudioManager.instance.StopAllMusic(); // Dừng tất cả nhạc trước
+        AudioManager.instance.PlayTitle(); // Phát nhạc menu chính
     }
 
     public void PlayGame()
     {
-        SceneManager.LoadScene(levelToStart);
-
-        AudioManager.instance.PlayNextBGM();
-
+        AudioManager.instance.StopAllMusic(); // Dừng nhạc menu
+        AudioManager.instance.PlayNextBGM(); // Phát nhạc gameplay
         AudioManager.instance.PlaySFXPitchAdjusted(5);
+        SceneManager.LoadScene(levelToStart);
     }
 
     public void GuideGame()
@@ -46,27 +46,27 @@ public class MainMenuController : MonoBehaviour
     }
 
     public void NewGame()
-{
-    // Xóa file save nếu cần
-    string path = Application.persistentDataPath + "/savegame.json";
-    if (File.Exists(path))
-        File.Delete(path);
-        
-    SceneManager.LoadScene("Main");
-}
+    {
+        // Xóa file save nếu cần
+        string path = Application.persistentDataPath + "/savegame.json";
+        if (File.Exists(path))
+            File.Delete(path);
 
-public void ContinueGame()
-{
-    string path = Application.persistentDataPath + "/savegame.json";
-    if (File.Exists(path))
-    {
         SceneManager.LoadScene("Main");
-        // SaveManager sẽ tự động load trong Start()
     }
-    else
+
+    public void ContinueGame()
     {
-        // Hiển thị thông báo không có save
-        Debug.Log("Không có file lưu game!");
+        string path = Application.persistentDataPath + "/savegame.json";
+        if (File.Exists(path))
+        {
+            SceneManager.LoadScene("Main");
+            // SaveManager sẽ tự động load trong Start()
+        }
+        else
+        {
+            // Hiển thị thông báo không có save
+            Debug.Log("Không có file lưu game!");
+        }
     }
-}
 }
