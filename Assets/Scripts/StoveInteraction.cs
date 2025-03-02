@@ -7,9 +7,9 @@ public class StoveInteraction : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-        if (collision.CompareTag("Player"))
-        {
+
+		if (collision.tag == "Player")
+		{
             playerInRange = true;
             UIController.instance.ShowMessage("Nhấn E để nấu ăn");
         }
@@ -17,8 +17,8 @@ public class StoveInteraction : MonoBehaviour
     
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
-        {
+		if (collision.tag == "Player")
+		{
             playerInRange = false;
         }
     }
