@@ -1,16 +1,22 @@
 fileFormatVersion: 2
-guid: 117a3c6c576f5e042ad0d174ac0fce0a
+guid: c2d45cbd1c72d45439dfcdce1e28c96b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7706158298741914310
-    second: Front Right Foot 000_0
+      213: -3075321283680775495
+    second: ELR_SpringlLeaf_0
   - first:
-      213: 1093161707537346878
-    second: Front Right Foot 000_1
+      213: 7421867485779905927
+    second: ELR_SpringlLeaf_1
   - first:
-      213: 912248053884039739
-    second: Front Right Foot 000_2
+      213: 5891598528820585769
+    second: ELR_SpringlLeaf_2
+  - first:
+      213: -6800149282209211914
+    second: ELR_SpringlLeaf_3
+  - first:
+      213: -9086752253592823719
+    second: ELR_SpringlLeaf_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -119,13 +125,35 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Front Right Foot 000_0
+      name: ELR_SpringlLeaf_0
       rect:
         serializedVersion: 2
-        x: 8
+        x: 4
+        y: 4
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b2520416934255d0800000000000000
+      internalID: -3075321283680775495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ELR_SpringlLeaf_1
+      rect:
+        serializedVersion: 2
+        x: 22
         y: 3
-        width: 584
-        height: 493
+        width: 6
+        height: 10
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,20 +162,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a354f843bd93e0590800000000000000
-      internalID: -7706158298741914310
+      spriteID: 78dcee3d725cff660800000000000000
+      internalID: 7421867485779905927
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Front Right Foot 000_1
+      name: ELR_SpringlLeaf_2
       rect:
         serializedVersion: 2
-        x: 587
-        y: 487
-        width: 69
-        height: 9
+        x: 37
+        y: 3
+        width: 8
+        height: 7
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -156,20 +184,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e31b2dbf7c0bb2f00800000000000000
-      internalID: 1093161707537346878
+      spriteID: 925a09d95a923c150800000000000000
+      internalID: 5891598528820585769
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Front Right Foot 000_2
+      name: ELR_SpringlLeaf_3
       rect:
         serializedVersion: 2
-        x: 591
-        y: 8
-        width: 173
-        height: 483
+        x: 51
+        y: 3
+        width: 9
+        height: 7
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,8 +206,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b32bcce85c4f8ac00800000000000000
-      internalID: 912248053884039739
+      spriteID: 6f9da4ea14401a1a0800000000000000
+      internalID: -6800149282209211914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ELR_SpringlLeaf_4
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 4
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9589e9218fe55e180800000000000000
+      internalID: -9086752253592823719
       vertices: []
       indices: 
       edges: []
@@ -197,10 +247,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Front Right Foot 000_0: -7706158298741914310
-      Front Right Foot 000_1: 1093161707537346878
-      Front Right Foot 000_2: 912248053884039739
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

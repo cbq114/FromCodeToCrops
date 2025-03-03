@@ -77,6 +77,12 @@ public class TimeController : MonoBehaviour
         {
             SeasonSystem.instance.NewDay();
         }
+        //hồi thể lực khi hết ngày
+        if(PlayerController.instance != null)
+        {
+            PlayerController.instance.UpdateStaminaUI();
+
+        }
 
         // Kiểm tra xem PlayerPrefs và SceneManager có hoạt động không
         try

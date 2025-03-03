@@ -257,7 +257,7 @@ public class PlayerController : MonoBehaviour
         {
             // Không đủ stamina, hiển thị thông báo
             if (UIController.instance != null)
-                UIController.instance.ShowMessage("Không đủ thể lực!");
+                UIController.instance.ShowMessage("Not fit enough!");
                 
             // Phát âm thanh thông báo lỗi nếu có
             if (AudioManager.instance != null)
@@ -358,7 +358,7 @@ public class PlayerController : MonoBehaviour
                 if (isNearPet)
                 {
                     UIController.instance.interactionHint.SetActive(true);
-                    UIController.instance.interactionHintText.text = "Nhấn E để tương tác với thú cưng";
+                    UIController.instance.interactionHintText.text = "Press E to interact with pets";
                 }
                 else if (UIController.instance.interactionHint.activeSelf)
                 {

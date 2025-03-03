@@ -66,7 +66,7 @@ public class ShopItemDisplay : MonoBehaviour
             // Không đủ tiền
             if (UIController.instance != null)
             {
-                UIController.instance.ShowMessage("Không đủ tiền!");
+                UIController.instance.ShowMessage("Not enough money!");
             }
             
             // Phát âm thanh lỗi
