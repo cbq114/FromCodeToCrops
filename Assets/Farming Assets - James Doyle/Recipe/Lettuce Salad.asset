@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4042da1ff27ff94bad489df2920d6e6, type: 3}
+  m_Name: Lettuce Salad
+  m_EditorClassIdentifier: 
+  recipeName: "Salad X\xE0 L\xE1ch"
+  recipeImage: {fileID: 4770776236079539142, guid: 45022a0bd9d5a934ab107fad2f7a9eea, type: 3}
+  description: "Salad t\u01B0\u01A1i ngon g\u1ED3m x\xE0 l\xE1ch xanh m\xE1t, k\u1EBFt
+    h\u1EE3p v\u1EDBi v\u1ECB chua ng\u1ECDt c\u1EE7a c\xE0 chua, t\u1EA1o n\xEAn
+    m\u1ED9t m\xF3n \u0103n nh\u1EB9 nh\xE0ng v\xE0 t\u1ED1t cho s\u1EE9c kh\u1ECFe."
+  ingredients:
+  - cropType: 1
+    amount: 2
+  - cropType: 6
+    amount: 1
+  resultItem: {fileID: 11400000, guid: c75715ad1f3239e438da6be6db849ab0, type: 2}
+  resultAmount: 1
+  staminaRestoreAmount: 20
+  speedBoostAmount: 0
+  speedBoostDuration: 0
+  toolEfficiencyBoost: 0
+  toolEfficiencyDuration: 0

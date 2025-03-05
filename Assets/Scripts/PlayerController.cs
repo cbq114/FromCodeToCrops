@@ -233,7 +233,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Giữ lại tính năng nhấn P để mở menu thú cưng từ xa
-        if (Keyboard.current.pKey.wasPressedThisFrame)
+        if (Keyboard.current.vKey.wasPressedThisFrame)
         {
             if (petMenuController != null)
                 petMenuController.TogglePetMenu();

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4042da1ff27ff94bad489df2920d6e6, type: 3}
+  m_Name: Hay Bread
+  m_EditorClassIdentifier: 
+  recipeName: "B\xE1nh M\xEC"
+  recipeImage: {fileID: 586851021342762581, guid: 0ff91d09c55bb944a99a0296002eeb52, type: 3}
+  description: "B\xE1nh m\xEC gi\xF2n tan l\xE0m t\u1EEB b\u1ED9t m\xEC v\xE0 khoai
+    t\xE2y, m\u1ED9t m\xF3n \u0103n d\xE2n d\xE3 v\xE0 \u0111\u1EE7 ch\u1EA5t \u0111\u1EC3
+    kh\u1EDFi \u0111\u1EA7u m\u1ED9t ng\xE0y m\u1EDBi."
+  ingredients:
+  - cropType: 3
+    amount: 2
+  - cropType: 4
+    amount: 1
+  resultItem: {fileID: 11400000, guid: 8c495f221b52f7446a44c7d884624b37, type: 2}
+  resultAmount: 1
+  staminaRestoreAmount: 25
+  speedBoostAmount: 0
+  speedBoostDuration: 0
+  toolEfficiencyBoost: 0
+  toolEfficiencyDuration: 0

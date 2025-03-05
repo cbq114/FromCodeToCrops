@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8c1c91a50b48944bbe514ffe1629742, type: 3}
+  m_Name: "Salad X\xE0 L\xE1ch"
+  m_EditorClassIdentifier: 
+  itemName: "Salad X\xE0 L\xE1ch"
+  itemIcon: {fileID: 4770776236079539142, guid: 45022a0bd9d5a934ab107fad2f7a9eea, type: 3}
+  description: "Salad t\u01B0\u01A1i ngon g\u1ED3m x\xE0 l\xE1ch xanh m\xE1t, k\u1EBFt
+    h\u1EE3p v\u1EDBi v\u1ECB chua ng\u1ECDt c\u1EE7a c\xE0 chua, t\u1EA1o n\xEAn
+    m\u1ED9t m\xF3n \u0103n nh\u1EB9 nh\xE0ng v\xE0 t\u1ED1t cho s\u1EE9c kh\u1ECFe."
+  baseValue: 0
+  isConsumable: 0
+  recipe: {fileID: 11400000, guid: ce78ccb7abec56d4fab6f0c7243c6924, type: 2}

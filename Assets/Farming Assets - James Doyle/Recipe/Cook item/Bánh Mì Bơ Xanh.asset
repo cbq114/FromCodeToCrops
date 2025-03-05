@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8c1c91a50b48944bbe514ffe1629742, type: 3}
+  m_Name: "B\xE1nh M\xEC B\u01A1 Xanh"
+  m_EditorClassIdentifier: 
+  itemName: "B\xE1nh M\xEC B\u01A1 Xanh"
+  itemIcon: {fileID: 8772427761191697563, guid: ce455026c7a3fad418a03003ae253651, type: 3}
+  description: "B\xE1nh m\xEC ph\u1EE7 l\u1EDBp b\u01A1 xanh b\xE9o ng\u1EADy c\xF9ng
+    x\xE0 l\xE1ch t\u01B0\u01A1i m\xE1t, m\xF3n \u0103n s\xE1ng l\xFD t\u01B0\u1EDFng
+    cho nh\u1EEFng ai y\xEAu th\xEDch s\u1EF1 \u0111\u01A1n gi\u1EA3n v\xE0 dinh
+    d\u01B0\u1EE1ng."
+  baseValue: 0
+  isConsumable: 0
+  recipe: {fileID: 11400000, guid: 8dad34f7e3c335a4784939d22d526698, type: 2}

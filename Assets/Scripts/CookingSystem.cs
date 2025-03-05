@@ -17,8 +17,10 @@ public class CookingSystem : MonoBehaviour
     public TMP_Text selectedRecipeName;
     public TMP_Text selectedRecipeDescription;
     public TMP_Text ingredientsText;
+    public TMP_Text itemAmountText;
     public Button cookButton;
-    
+    public Button useButton;
+
     [Header("Recipes")]
     public List<Recipe> availableRecipes = new List<Recipe>();
     
@@ -26,12 +28,18 @@ public class CookingSystem : MonoBehaviour
     
     private void Awake()
     {
+        Debug.Log("🔄 CookingSystem Awake() chạy!");
         if (instance == null)
+        {
             instance = this;
+        }
         else
+        {
             Destroy(gameObject);
+        }
+
     }
-    
+
     public void OpenCookingPanel()
     {
         cookingPanel.SetActive(true);
@@ -75,7 +83,12 @@ public class CookingSystem : MonoBehaviour
         selectedRecipeImage.sprite = recipe.recipeImage;
         selectedRecipeName.text = recipe.recipeName;
         selectedRecipeDescription.text = recipe.description;
-        
+
+        // Hiển thị số lượng món ăn trong kho
+        int itemAmount = CookingInventory.instance.GetItemAmount(recipe.resultItem);
+        itemAmountText.text = $"Số lượng: {itemAmount}";
+
+
         // Hiển thị các nguyên liệu cần thiết
         string ingredientsList = "Nguyên liệu cần:\n";
         bool canCook = true;
@@ -83,7 +96,7 @@ public class CookingSystem : MonoBehaviour
         foreach (RecipeIngredient ingredient in recipe.ingredients)
         {
             int playerHas = CropController.instance.GetCropInfo(ingredient.cropType).cropAmount;
-            ingredientsList += $"- {CropController.instance.GetCropInfo(ingredient.cropType)}: {playerHas}/{ingredient.amount}\n";
+            ingredientsList += $"- {ingredient.cropType}: {playerHas}/{ingredient.amount}\n";
             
             if (playerHas < ingredient.amount)
                 canCook = false;
@@ -91,6 +104,13 @@ public class CookingSystem : MonoBehaviour
         
         ingredientsText.text = ingredientsList;
         cookButton.interactable = canCook;
+
+        // Cập nhật nút sử dụng (chỉ có thể sử dụng nếu số lượng > 0)
+        useButton.interactable = itemAmount > 0;
+
+        useButton.onClick.RemoveAllListeners();
+
+        useButton.onClick.AddListener(() => ConsumeFood(currentRecipe));
     }
     
     public void CookSelectedRecipe()
@@ -102,8 +122,10 @@ public class CookingSystem : MonoBehaviour
         {
             CropController.instance.UseCrop(ingredient.cropType, ingredient.amount);
         }
-        
-        // Thêm món ăn vào inventory (nếu có hệ thống inventory)
+
+        // Thêm món ăn vào kho đồ
+        CookingInventory.instance.AddItem(currentRecipe.resultItem, currentRecipe.resultAmount);
+
         // Hiển thị thông báo thành công
         UIController.instance.ShowMessage($"Đã nấu thành công: {currentRecipe.recipeName}");
         
@@ -116,6 +138,15 @@ public class CookingSystem : MonoBehaviour
     
     public void ConsumeFood(Recipe recipe)
     {
+        if (CookingInventory.instance.GetItemAmount(recipe.resultItem) <= 0)
+        {
+            UIController.instance.ShowMessage("Bạn không có món ăn này!");
+            return;
+        }
+
+        // Giảm số lượng món ăn trong kho
+        CookingInventory.instance.RemoveItem(recipe.resultItem, 1);
+
         // Hồi phục stamina
         PlayerController.instance.currentStamina += recipe.staminaRestoreAmount;
         if (PlayerController.instance.currentStamina > PlayerController.instance.maxStamina)
@@ -132,11 +163,12 @@ public class CookingSystem : MonoBehaviour
             StartCoroutine(ApplyToolEfficiencyBoost(recipe.toolEfficiencyBoost, recipe.toolEfficiencyDuration));
             
         // Play sound effect
-        AudioManager.instance.PlaySFX(9); // Giả sử 9 là âm thanh ăn
-        
+        //AudioManager.instance.PlaySFX(9); // Giả sử 9 là âm thanh ăn
+
+        SelectRecipe(recipe);
         UIController.instance.ShowMessage($"Đã sử dụng: {recipe.recipeName}");
     }
-    
+
     // Coroutines để áp dụng các hiệu ứng tạm thời
     private System.Collections.IEnumerator ApplySpeedBoost(float amount, float duration)
     {
