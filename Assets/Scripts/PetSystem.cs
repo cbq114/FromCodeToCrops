@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class PetSystem : MonoBehaviour
@@ -14,6 +16,7 @@ public class PetSystem : MonoBehaviour
     public float followSpeed = 3f;
     public float minDistanceToPlayer = 1.5f;
     public float maxDistanceToPlayer = 3f;
+    public string petType = "Dog"; // Added pet type
 
     [Header("Pet Stats")]
     public string petName = "Buddy";
@@ -29,11 +32,19 @@ public class PetSystem : MonoBehaviour
     public GameObject affectionParticle;
     public Sprite[] affectionIcons;
     public Animator petAnimator;
+
+    [Header("Exploration Settings")]
+    [SerializeField] private List<Transform> favoriteSpots = new List<Transform>();
+    [SerializeField] private float exploreChance = 0.3f;
+
     private Transform playerTransform;
     private SpriteRenderer petRenderer;
     private float nextSearchTime;
     private float petIdleTimer;
-    private Vector3 lastPosition; // Theo dõi vị trí trước đó của pet
+    private Vector3 lastPosition;
+    private bool isExploring = false;
+    private Vector3 exploreTarget;
+
     private void Awake()
     {
         if (instance == null)
@@ -54,61 +65,59 @@ public class PetSystem : MonoBehaviour
         LoadPetData();
         SpawnPet();
         UpdatePetAbilities();
-        lastPosition = activePet.transform.position; // Khởi tạo vị trí ban đầu
+        lastPosition = activePet.transform.position;
     }
 
-private void Update()
-{
-    if (activePet != null && playerTransform != null)
+    private void Update()
     {
-        if (isFollowing)
+        if (activePet != null && playerTransform != null)
         {
-            FollowPlayer();
-            CheckMovementAndDirection();
-        }
-        else
-        {
-            // Pet ở yên một chỗ
-            if (petAnimator != null)
+            if (isFollowing && !isExploring)
             {
-                petAnimator.SetBool("IsMoving", false);
-                
-                petIdleTimer += Time.deltaTime;
-                if (petIdleTimer > 3f)
+                FollowPlayer();
+                CheckMovementAndDirection();
+                if (Random.value < exploreChance * Time.deltaTime)
+                    StartCoroutine(ExploreAround());
+            }
+            else if (isExploring)
+            {
+                ExploreArea();
+            }
+            else
+            {
+                if (petAnimator != null)
                 {
-                    petAnimator.SetTrigger("PlayIdle");
-                    petIdleTimer = 0;
+                    petAnimator.SetBool("IsMoving", false);
+                    petIdleTimer += Time.deltaTime;
+                    if (petIdleTimer > 3f)
+                    {
+                        petAnimator.SetTrigger("PlayIdle");
+                        petIdleTimer = 0;
+                    }
                 }
             }
-        }
-        
-        // Thêm kiểm tra đầy đủ trước khi gọi CheckForItems
-        if (canFindItems && Time.time > nextSearchTime && 
-            CropController.instance != null && 
-            MoneyManager.instance != null && 
-            PlayerController.instance != null)
-        {
-            CheckForItems();
+
+            if (canFindItems && Time.time > nextSearchTime &&
+                CropController.instance != null &&
+                MoneyManager.instance != null &&
+                PlayerController.instance != null)
+            {
+                CheckForItems();
+            }
         }
     }
-}
 
     private void FollowPlayer()
     {
         if (activePet == null || playerTransform == null) return;
-
-        // Nếu không đi theo, không di chuyển
         if (!isFollowing) return;
 
-        // Mã di chuyển hiện tại giữ nguyên
         Vector3 targetPos = playerTransform.position + new Vector3(-minDistanceToPlayer, 0, 0);
         float distanceToPlayer = Vector3.Distance(activePet.transform.position, playerTransform.position);
 
         float currentSpeed = followSpeed;
         if (distanceToPlayer > maxDistanceToPlayer)
-        {
             currentSpeed *= 2f;
-        }
 
         Vector3 newPos = Vector3.MoveTowards(activePet.transform.position, targetPos, currentSpeed * Time.deltaTime);
         activePet.transform.position = newPos;
@@ -116,24 +125,17 @@ private void Update()
 
     private void CheckMovementAndDirection()
     {
-        // Kiểm tra xem pet có di chuyển hay không
         bool isMoving = Vector3.Distance(activePet.transform.position, lastPosition) > 0.001f;
         if (petAnimator != null)
-        {
             petAnimator.SetBool("IsMoving", isMoving);
-        }
 
-        // Đồng bộ hướng của pet với hướng di chuyển của người chơi
         if (PlayerController.instance != null && petRenderer != null)
         {
             Vector2 playerVelocity = PlayerController.instance.theRB.linearVelocity;
             if (playerVelocity.x != 0)
-            {
-                petRenderer.flipX = playerVelocity.x < 0; // Lật sprite nếu người chơi di chuyển sang trái
-            }
+                petRenderer.flipX = playerVelocity.x < 0;
         }
 
-        // Cập nhật vị trí trước đó
         lastPosition = activePet.transform.position;
 
         if (!isMoving)
@@ -143,9 +145,7 @@ private void Update()
             {
                 int randomAction = Random.Range(0, 3);
                 if (randomAction == 0 && petAnimator != null)
-                {
                     petAnimator.SetTrigger("PlayIdle");
-                }
                 petIdleTimer = 0;
             }
         }
@@ -162,13 +162,9 @@ private void Update()
             Vector3 spawnPosition = playerTransform.position + new Vector3(1f, 0f, 0f);
             activePet = Instantiate(petPrefab, spawnPosition, Quaternion.identity);
 
-            // Thêm PetInteraction script nếu chưa có
             if (activePet.GetComponent<PetInteraction>() == null)
-            {
                 activePet.AddComponent<PetInteraction>();
-            }
 
-            // Đảm bảo có Collider để phát hiện clicks
             if (activePet.GetComponent<Collider2D>() == null)
             {
                 CircleCollider2D col = activePet.AddComponent<CircleCollider2D>();
@@ -195,6 +191,7 @@ private void Update()
             }
         }
     }
+
     public void IncreasePetAffection(int amount)
     {
         affectionLevel = Mathf.Min(affectionLevel + amount, maxAffectionLevel);
@@ -202,14 +199,10 @@ private void Update()
         UpdatePetAbilities();
 
         if (affectionParticle != null && activePet != null)
-        {
             Instantiate(affectionParticle, activePet.transform.position + Vector3.up * 0.5f, Quaternion.identity);
-        }
 
         if (UIController.instance != null)
-        {
             UIController.instance.ShowMessage($"Tình cảm với {petName} tăng lên! (Cấp {affectionLevel}/{maxAffectionLevel})");
-        }
     }
 
     public void UpdatePetAbilities()
@@ -219,85 +212,85 @@ private void Update()
         canFindItems = affectionLevel >= 3;
 
         if (PlayerController.instance != null)
-        {
             PlayerController.instance.moveSpeed = 5f + movementSpeedBoost;
-        }
     }
 
-private void CheckForItems()
-{
-    // Kiểm tra các singleton cần thiết trước
-    if (CropController.instance == null || MoneyManager.instance == null || 
-        PlayerController.instance == null || UIController.instance == null)
+    private void CheckForItems()
     {
-        // Hoãn việc kiểm tra thêm một thời gian nếu chưa sẵn sàng
-        nextSearchTime = Time.time + 5f;
-        return;
+        if (CropController.instance == null || MoneyManager.instance == null ||
+            PlayerController.instance == null || UIController.instance == null)
+        {
+            nextSearchTime = Time.time + 5f;
+            return;
+        }
+
+        if (Random.value < 0.2f)
+        {
+            int itemType = Random.Range(0, 3);
+            string itemName = "";
+            switch (itemType)
+            {
+                case 0:
+                    if (CropController.instance != null)
+                    {
+                        CropController.CropType randomCrop = (CropController.CropType)Random.Range(0, System.Enum.GetValues(typeof(CropController.CropType)).Length);
+                        CropController.instance.AddSeed(randomCrop, 1);
+                        itemName = randomCrop.ToString();
+                    }
+                    break;
+                case 1:
+                    if (MoneyManager.instance != null)
+                    {
+                        int coins = Random.Range(1, 5);
+                        MoneyManager.instance.AddMoney(coins);
+                        itemName = coins + " xu";
+                    }
+                    break;
+                case 2:
+                    if (PlayerController.instance != null)
+                    {
+                        float staminaBoost = Random.Range(5f, 10f);
+                        PlayerController.instance.currentStamina = Mathf.Min(PlayerController.instance.currentStamina + staminaBoost, PlayerController.instance.maxStamina);
+                        PlayerController.instance.UpdateStaminaUI();
+                        itemName = "Củ cà rốt nhỏ (+" + staminaBoost + " stamina)";
+                    }
+                    break;
+            }
+
+            if (UIController.instance != null)
+                UIController.instance.ShowMessage($"{petName} đã tìm thấy: {itemName}!");
+
+            if (AudioManager.instance != null)
+                AudioManager.instance.PlaySFX(5);
+        }
+
+        nextSearchTime = Time.time + Random.Range(60f, 180f);
     }
 
-    if (Random.value < 0.2f)
+    public void PetInteraction()
     {
-        int itemType = Random.Range(0, 3);
-        string itemName = "";
-        switch (itemType)
-        {
-            case 0:
-                if (CropController.instance != null)
-                {
-                    CropController.CropType randomCrop = (CropController.CropType)Random.Range(0, System.Enum.GetValues(typeof(CropController.CropType)).Length);
-                    CropController.instance.AddSeed(randomCrop, 1);
-                    itemName = randomCrop.ToString();
-                }
-                break;
-            case 1:
-                if (MoneyManager.instance != null)
-                {
-                    int coins = Random.Range(1, 5);
-                    MoneyManager.instance.AddMoney(coins);
-                    itemName = coins + " xu";
-                }
-                break;
-            case 2:
-                if (PlayerController.instance != null)
-                {
-                    float staminaBoost = Random.Range(5f, 10f);
-                    PlayerController.instance.currentStamina = Mathf.Min(PlayerController.instance.currentStamina + staminaBoost, PlayerController.instance.maxStamina);
-                    PlayerController.instance.UpdateStaminaUI();
-                    itemName = "Củ cà rốt nhỏ (+" + staminaBoost + " stamina)";
-                }
-                break;
-        }
+        // Tăng tình cảm như hiện tại
+        IncreasePetAffection(1);
 
-        if (UIController.instance != null)
-        {
-            UIController.instance.ShowMessage($"{petName} đã tìm thấy: {itemName}!");
-        }
+        // Lấy phản hồi từ thú cưng về việc được vuốt ve
+        StartCoroutine(GetPetResponseCoroutine("pet me"));
 
+        // Hiệu ứng âm thanh
         if (AudioManager.instance != null)
             AudioManager.instance.PlaySFX(5);
     }
 
-    nextSearchTime = Time.time + Random.Range(60f, 180f);
-}
-
-    public void PetInteraction()
-    {
-        if (petAnimator != null)
-            petAnimator.SetTrigger("Happy");
-
-        if (Random.value < 0.3f)
-            IncreasePetAffection(1);
-    }
-
     public void FeedPet()
     {
-        IncreasePetAffection(1);
+        // Tăng tình cảm như hiện tại
+        IncreasePetAffection(2);
 
-        if (petAnimator != null)
-            petAnimator.SetTrigger("Eat");
+        // Lấy phản hồi từ thú cưng về việc được cho ăn
+        StartCoroutine(GetPetResponseCoroutine("feed me"));
 
+        // Hiệu ứng âm thanh
         if (AudioManager.instance != null)
-            AudioManager.instance.PlaySFX(7);
+            AudioManager.instance.PlaySFX(5);
     }
 
     private void SavePetData()
@@ -316,7 +309,6 @@ private void CheckForItems()
         {
             petName = PlayerPrefs.GetString("PetName");
             affectionLevel = PlayerPrefs.GetInt("PetAffection");
-
         }
         else
         {
@@ -329,17 +321,67 @@ private void CheckForItems()
     public void ToggleFollowing()
     {
         isFollowing = !isFollowing;
-
-        // Lưu trạng thái
         PlayerPrefs.SetInt("PetIsFollowing", isFollowing ? 1 : 0);
         PlayerPrefs.Save();
 
-        // Hiển thị thông báo
         if (UIController.instance != null)
-        {
             UIController.instance.ShowMessage(isFollowing ?
                 $"{petName} sẽ đi theo bạn." :
                 $"{petName} sẽ ở yên tại chỗ.");
-        }
+
+        StartCoroutine(GetPetResponseCoroutine(isFollowing ? "told me to follow" : "told me to stay"));
+    }
+
+    private IEnumerator ExploreAround()
+    {
+        isExploring = true;
+        float exploreDistance = Random.Range(2f, 5f);
+        float randomAngle = Random.Range(0, 360f) * Mathf.Deg2Rad;
+        exploreTarget = playerTransform.position + new Vector3(
+            Mathf.Cos(randomAngle) * exploreDistance,
+            Mathf.Sin(randomAngle) * exploreDistance,
+            0f
+        );
+
+        yield return new WaitForSeconds(Random.Range(3f, 8f));
+        isExploring = false;
+
+        StartCoroutine(GetPetResponseCoroutine("explored around"));
+    }
+
+    private void ExploreArea()
+    {
+        Vector3 newPos = Vector3.MoveTowards(activePet.transform.position, exploreTarget, followSpeed * 0.7f * Time.deltaTime);
+        activePet.transform.position = newPos;
+
+        bool isMoving = Vector3.Distance(activePet.transform.position, lastPosition) > 0.001f;
+        if (petAnimator != null)
+            petAnimator.SetBool("IsMoving", isMoving);
+
+        if (petRenderer != null)
+            petRenderer.flipX = (exploreTarget.x < activePet.transform.position.x);
+
+        lastPosition = activePet.transform.position;
+    }
+
+    public async Task<string> GetPetResponse(string playerAction)
+    {
+        if (GeminiAPIClient.instance == null)
+            return "API không khả dụng.";
+
+        string prompt = $"You are a {petType} pet named {petName} with affection level {affectionLevel}/5. " +
+                       $"The player just {playerAction}. How do you react? " +
+                       $"Respond with a very short description of your behavior (max 1 sentence).";
+
+        return await GeminiAPIClient.instance.SendRequest(prompt);
+    }
+
+    private IEnumerator GetPetResponseCoroutine(string playerAction)
+    {
+        Task<string> responseTask = GetPetResponse(playerAction);
+        yield return new WaitUntil(() => responseTask.IsCompleted);
+
+        if (UIController.instance != null)
+            UIController.instance.ShowMessage($"{petName}: {responseTask.Result}");
     }
 }

@@ -252,12 +252,17 @@ public class UIController : MonoBehaviour
 		messageText.text = message;
 		messagePanel.SetActive(true);
 
-		yield return new WaitForSeconds(messageDuration);
+		// Tính toán thời gian hiển thị dựa vào độ dài tin nhắn
+		float displayTime = Mathf.Max(messageDuration, 3.0f + message.Length * 0.05f);
+
+		// Giới hạn thời gian tối đa 15 giây để không quá lâu
+		displayTime = Mathf.Min(displayTime, 15f);
+
+		yield return new WaitForSeconds(displayTime);
 
 		messagePanel.SetActive(false);
 		messageCoroutine = null;
 	}
-
 	public void SaveGameButton()
 	{
 		if (SaveManager.instance != null)

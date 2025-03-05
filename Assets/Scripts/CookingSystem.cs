@@ -2,195 +2,342 @@ using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections;
+using System.Threading.Tasks;
+using System.Text;
+using System;
 
 public class CookingSystem : MonoBehaviour
 {
-    public static CookingSystem instance;
-    
-    [Header("UI")]
-    public GameObject cookingPanel;
-    public RectTransform recipeContainer;
-    public GameObject recipeButtonPrefab;
-    
-    [Header("Recipe Details")]
-    public Image selectedRecipeImage;
-    public TMP_Text selectedRecipeName;
-    public TMP_Text selectedRecipeDescription;
-    public TMP_Text ingredientsText;
-    public TMP_Text itemAmountText;
-    public Button cookButton;
-    public Button useButton;
+	public static CookingSystem instance;
 
-    [Header("Recipes")]
-    public List<Recipe> availableRecipes = new List<Recipe>();
-    
-    private Recipe currentRecipe;
-    
-    private void Awake()
-    {
-        Debug.Log("🔄 CookingSystem Awake() chạy!");
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+	[Header("UI")]
+	public GameObject cookingPanel;
+	public RectTransform recipeContainer;
+	public GameObject recipeButtonPrefab;
 
-    }
+	[Header("Recipe Details")]
+	public Image selectedRecipeImage;
+	public TMP_Text selectedRecipeName;
+	public TMP_Text selectedRecipeDescription;
+	public TMP_Text ingredientsText;
+	public TMP_Text itemAmountText;
+	public Button cookButton;
+	public Button useButton;
+	public Button suggestionButton;
 
-    public void OpenCookingPanel()
-    {
-        cookingPanel.SetActive(true);
-        UIController.instance.staminaBarContainer.SetActive(false);
-        PopulateRecipes();
-    }
-    
-    public void CloseCookingPanel()
-    {
-        cookingPanel.SetActive(false);
-        UIController.instance.staminaBarContainer.SetActive(true);
-    }
-    
-    private void PopulateRecipes()
-    {
-        // Xóa các nút công thức cũ
-        foreach (Transform child in recipeContainer)
-        {
-            Destroy(child.gameObject);
-        }
-        
-        // Tạo nút cho mỗi công thức
-        foreach (Recipe recipe in availableRecipes)
-        {
-            GameObject buttonObj = Instantiate(recipeButtonPrefab, recipeContainer);
-            Button button = buttonObj.GetComponent<Button>();
-            
-            // Set up button UI
-            buttonObj.transform.Find("RecipeIcon").GetComponent<Image>().sprite = recipe.recipeImage;
-            buttonObj.transform.Find("RecipeName").GetComponent<TMP_Text>().text = recipe.recipeName;
-            
-            // Add click listener
-            button.onClick.AddListener(() => SelectRecipe(recipe));
-        }
-    }
-    
-    private void SelectRecipe(Recipe recipe)
-    {
-        currentRecipe = recipe;
-        
-        selectedRecipeImage.sprite = recipe.recipeImage;
-        selectedRecipeName.text = recipe.recipeName;
-        selectedRecipeDescription.text = recipe.description;
+	[Header("Recipes")]
+	public List<Recipe> availableRecipes = new List<Recipe>();
 
-        // Hiển thị số lượng món ăn trong kho
-        int itemAmount = CookingInventory.instance.GetItemAmount(recipe.resultItem);
-        itemAmountText.text = $"Số lượng: {itemAmount}";
+	private Recipe currentRecipe;
 
+	// Class to deserialize JSON recipe suggestions
+	[System.Serializable]
+	public class RecipeSuggestion
+	{
+		public string name;
+		public string description;
+	}
 
-        // Hiển thị các nguyên liệu cần thiết
-        string ingredientsList = "Nguyên liệu cần:\n";
-        bool canCook = true;
-        
-        foreach (RecipeIngredient ingredient in recipe.ingredients)
-        {
-            int playerHas = CropController.instance.GetCropInfo(ingredient.cropType).cropAmount;
-            ingredientsList += $"- {ingredient.cropType}: {playerHas}/{ingredient.amount}\n";
-            
-            if (playerHas < ingredient.amount)
-                canCook = false;
-        }
-        
-        ingredientsText.text = ingredientsList;
-        cookButton.interactable = canCook;
+	// Wrapper class to handle JSON array parsing
+	[System.Serializable]
+	public class SuggestionWrapper
+	{
+		public RecipeSuggestion[] suggestions;
+	}
 
-        // Cập nhật nút sử dụng (chỉ có thể sử dụng nếu số lượng > 0)
-        useButton.interactable = itemAmount > 0;
+	private void Awake()
+	{
+		Debug.Log("🔄 CookingSystem Awake() chạy!");
+		if (instance == null)
+		{
+			instance = this;
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
+	}
 
-        useButton.onClick.RemoveAllListeners();
+	public void OpenCookingPanel()
+	{
+		cookingPanel.SetActive(true);
+		UIController.instance.staminaBarContainer.SetActive(false);
+		PopulateRecipes();
 
-        useButton.onClick.AddListener(() => ConsumeFood(currentRecipe));
-    }
-    
-    public void CookSelectedRecipe()
-    {
-        if (currentRecipe == null) return;
-        
-        // Trừ nguyên liệu
-        foreach (RecipeIngredient ingredient in currentRecipe.ingredients)
-        {
-            CropController.instance.UseCrop(ingredient.cropType, ingredient.amount);
-        }
+		if (suggestionButton != null && suggestionButton.onClick.GetPersistentEventCount() == 0)
+			suggestionButton.onClick.AddListener(ShowRecipeSuggestions);
+	}
 
-        // Thêm món ăn vào kho đồ
-        CookingInventory.instance.AddItem(currentRecipe.resultItem, currentRecipe.resultAmount);
+	public void CloseCookingPanel()
+	{
+		cookingPanel.SetActive(false);
+		UIController.instance.staminaBarContainer.SetActive(true);
+	}
 
-        // Hiển thị thông báo thành công
-        UIController.instance.ShowMessage($"Đã nấu thành công: {currentRecipe.recipeName}");
-        
-        // Play sound effect
-        AudioManager.instance.PlaySFX(8); // Giả sử 8 là âm thanh nấu ăn
-        
-        // Cập nhật UI
-        SelectRecipe(currentRecipe); // Cập nhật lại UI để hiển thị số nguyên liệu mới
-    }
-    
-    public void ConsumeFood(Recipe recipe)
-    {
-        if (CookingInventory.instance.GetItemAmount(recipe.resultItem) <= 0)
-        {
-            UIController.instance.ShowMessage("Bạn không có món ăn này!");
-            return;
-        }
+	private void PopulateRecipes()
+	{
+		foreach (Transform child in recipeContainer)
+		{
+			Destroy(child.gameObject);
+		}
 
-        // Giảm số lượng món ăn trong kho
-        CookingInventory.instance.RemoveItem(recipe.resultItem, 1);
+		foreach (Recipe recipe in availableRecipes)
+		{
+			GameObject buttonObj = Instantiate(recipeButtonPrefab, recipeContainer);
+			Button button = buttonObj.GetComponent<Button>();
 
-        // Hồi phục stamina
-        PlayerController.instance.currentStamina += recipe.staminaRestoreAmount;
-        if (PlayerController.instance.currentStamina > PlayerController.instance.maxStamina)
-            PlayerController.instance.currentStamina = PlayerController.instance.maxStamina;
-            
-        PlayerController.instance.UpdateStaminaUI();
-        
-        // Áp dụng hiệu ứng tăng tốc nếu có
-        if (recipe.speedBoostAmount > 0)
-            StartCoroutine(ApplySpeedBoost(recipe.speedBoostAmount, recipe.speedBoostDuration));
-            
-        // Áp dụng hiệu ứng tăng hiệu quả công cụ nếu có
-        if (recipe.toolEfficiencyBoost > 0)
-            StartCoroutine(ApplyToolEfficiencyBoost(recipe.toolEfficiencyBoost, recipe.toolEfficiencyDuration));
-            
-        // Play sound effect
-        //AudioManager.instance.PlaySFX(9); // Giả sử 9 là âm thanh ăn
+			buttonObj.transform.Find("RecipeIcon").GetComponent<Image>().sprite = recipe.recipeImage;
+			buttonObj.transform.Find("RecipeName").GetComponent<TMP_Text>().text = recipe.recipeName;
 
-        SelectRecipe(recipe);
-        UIController.instance.ShowMessage($"Đã sử dụng: {recipe.recipeName}");
-    }
+			button.onClick.AddListener(() => SelectRecipe(recipe));
+		}
+	}
 
-    // Coroutines để áp dụng các hiệu ứng tạm thời
-    private System.Collections.IEnumerator ApplySpeedBoost(float amount, float duration)
-    {
-        float originalSpeed = PlayerController.instance.moveSpeed;
-        PlayerController.instance.moveSpeed += amount;
-        
-        yield return new WaitForSeconds(duration);
-        
-        PlayerController.instance.moveSpeed = originalSpeed;
-    }
-    
-    private System.Collections.IEnumerator ApplyToolEfficiencyBoost(float amount, float duration)
-    {
-        // Lưu giá trị tiêu thụ stamina ban đầu
-        float originalStaminaUse = PlayerController.instance.staminaUsePerAction;
-        
-        // Giảm lượng stamina tiêu thụ (hiệu quả hơn)
-        PlayerController.instance.staminaUsePerAction -= amount;
-        
-        yield return new WaitForSeconds(duration);
-        
-        // Khôi phục về giá trị ban đầu
-        PlayerController.instance.staminaUsePerAction = originalStaminaUse;
-    }
+	private void SelectRecipe(Recipe recipe)
+	{
+		currentRecipe = recipe;
+
+		selectedRecipeImage.sprite = recipe.recipeImage;
+		selectedRecipeName.text = recipe.recipeName;
+		selectedRecipeDescription.text = recipe.description;
+
+		int itemAmount = CookingInventory.instance.GetItemAmount(recipe.resultItem);
+		itemAmountText.text = $"Số lượng: {itemAmount}";
+
+		string ingredientsList = "Nguyên liệu cần:\n";
+		bool canCook = true;
+
+		foreach (RecipeIngredient ingredient in recipe.ingredients)
+		{
+			int playerHas = CropController.instance.GetCropInfo(ingredient.cropType).cropAmount;
+			ingredientsList += $"- {ingredient.cropType}: {playerHas}/{ingredient.amount}\n";
+
+			if (playerHas < ingredient.amount)
+				canCook = false;
+		}
+
+		ingredientsText.text = ingredientsList;
+		cookButton.interactable = canCook;
+
+		useButton.interactable = itemAmount > 0;
+		useButton.onClick.RemoveAllListeners();
+		useButton.onClick.AddListener(() => ConsumeFood(currentRecipe));
+	}
+
+	public void CookSelectedRecipe()
+	{
+		if (currentRecipe == null) return;
+
+		foreach (RecipeIngredient ingredient in currentRecipe.ingredients)
+		{
+			CropController.instance.UseCrop(ingredient.cropType, ingredient.amount);
+		}
+
+		CookingInventory.instance.AddItem(currentRecipe.resultItem, currentRecipe.resultAmount);
+		UIController.instance.ShowMessage($"Đã nấu thành công: {currentRecipe.recipeName}");
+		AudioManager.instance.PlaySFX(8);
+		SelectRecipe(currentRecipe);
+	}
+
+	public void ConsumeFood(Recipe recipe)
+	{
+		if (CookingInventory.instance.GetItemAmount(recipe.resultItem) <= 0)
+		{
+			UIController.instance.ShowMessage("Bạn không có món ăn này!");
+			return;
+		}
+
+		CookingInventory.instance.RemoveItem(recipe.resultItem, 1);
+		PlayerController.instance.currentStamina += recipe.staminaRestoreAmount;
+		if (PlayerController.instance.currentStamina > PlayerController.instance.maxStamina)
+			PlayerController.instance.currentStamina = PlayerController.instance.maxStamina;
+
+		PlayerController.instance.UpdateStaminaUI();
+
+		if (recipe.speedBoostAmount > 0)
+			StartCoroutine(ApplySpeedBoost(recipe.speedBoostAmount, recipe.speedBoostDuration));
+
+		if (recipe.toolEfficiencyBoost > 0)
+			StartCoroutine(ApplyToolEfficiencyBoost(recipe.toolEfficiencyBoost, recipe.toolEfficiencyDuration));
+
+		SelectRecipe(recipe);
+		UIController.instance.ShowMessage($"Đã sử dụng: {recipe.recipeName}");
+	}
+
+	private IEnumerator ApplySpeedBoost(float amount, float duration)
+	{
+		float originalSpeed = PlayerController.instance.moveSpeed;
+		PlayerController.instance.moveSpeed += amount;
+		yield return new WaitForSeconds(duration);
+		PlayerController.instance.moveSpeed = originalSpeed;
+	}
+
+	private IEnumerator ApplyToolEfficiencyBoost(float amount, float duration)
+	{
+		float originalStaminaUse = PlayerController.instance.staminaUsePerAction;
+		PlayerController.instance.staminaUsePerAction -= amount;
+		yield return new WaitForSeconds(duration);
+		PlayerController.instance.staminaUsePerAction = originalStaminaUse;
+	}
+
+	public async Task<List<string>> GetRecipeSuggestions()
+	{
+		StringBuilder ingredients = new StringBuilder();
+
+		foreach (CropController.CropType cropType in Enum.GetValues(typeof(CropController.CropType)))
+		{
+			int amount = CropController.instance.GetCropInfo(cropType).cropAmount;
+			if (amount > 0)
+			{
+				ingredients.Append($"{cropType}: {amount}, ");
+			}
+		}
+
+		string prompt = $"Given these ingredients: {ingredients}, suggest 3 recipe names " +
+					   $"and their simple descriptions that would be suitable for a farming game. " +
+					   $"Format as JSON array with 'name' and 'description' fields.";
+
+		string response = await GeminiAPIClient.instance.SendRequest(prompt);
+		return ParseRecipeJson(response);
+	}
+
+	private List<string> ParseRecipeJson(string json)
+	{
+		List<string> suggestions = new List<string>();
+		try
+		{
+			string jsonArray = json.Trim();
+			if (jsonArray.StartsWith("[") && jsonArray.EndsWith("]"))
+			{
+				RecipeSuggestion[] recipes = JsonUtility.FromJson<RecipeSuggestion[]>(jsonArray);
+				foreach (var recipe in recipes)
+				{
+					suggestions.Add($"{recipe.name}: {recipe.description}");
+				}
+			}
+			else
+			{
+				Debug.LogError("Invalid JSON format: not an array.");
+			}
+		}
+		catch (Exception e)
+		{
+			Debug.LogError($"Error parsing JSON: {e.Message}");
+		}
+		return suggestions;
+	}
+
+	public void ShowRecipeSuggestions()
+	{
+		if (UIController.instance != null)
+			UIController.instance.ShowMessage("Đang tìm gợi ý công thức...");
+
+		StartCoroutine(GetRecipeSuggestionsCoroutine());
+	}
+
+	private IEnumerator GetRecipeSuggestionsCoroutine()
+	{
+		if (GeminiAPIClient.instance != null)
+		{
+			StringBuilder ingredients = new StringBuilder();
+
+			if (InventoryController.instance != null)
+			{
+				foreach (var item in InventoryController.instance.theItems)
+				{
+					if (item != null && item.itemType == InventoryItem.ItemType.Crop)
+					{
+						ingredients.Append($"{item.itemName}: {item.numberHeld}, ");
+					}
+				}
+			}
+
+			string prompt = $"Given these ingredients: {ingredients}, suggest 3 recipe names " +
+						   $"and their simple descriptions that would be suitable for a farming game. " +
+						   $"Format as JSON array with 'name' and 'description' fields.";
+
+			var task = GeminiAPIClient.instance.SendRequest(prompt);
+
+			while (!task.IsCompleted)
+				yield return null;
+
+			if (task.IsCompletedSuccessfully)
+			{
+				try
+				{
+					string jsonResponse = task.Result;
+					List<RecipeSuggestion> suggestions = ParseRecipeSuggestions(jsonResponse);
+
+					if (suggestions != null && suggestions.Count > 0)
+					{
+						StringBuilder message = new StringBuilder("Gợi ý công thức:\n\n");
+						foreach (RecipeSuggestion suggestion in suggestions)
+						{
+							message.AppendLine($"{suggestion.name}");
+							message.AppendLine($"{suggestion.description}");
+							message.AppendLine();
+						}
+						if (UIController.instance != null)
+							UIController.instance.ShowMessage(message.ToString());
+					}
+					else
+					{
+						if (UIController.instance != null)
+							UIController.instance.ShowMessage("Không thể tạo gợi ý công thức từ phản hồi AI.");
+					}
+				}
+				catch (Exception e)
+				{
+					Debug.LogError($"Lỗi khi xử lý phản hồi AI: {e.Message}");
+					if (UIController.instance != null)
+						UIController.instance.ShowMessage("Lỗi khi xử lý gợi ý công thức.");
+				}
+			}
+			else
+			{
+				if (UIController.instance != null)
+					UIController.instance.ShowMessage("Không thể tạo gợi ý công thức.");
+			}
+		}
+		else
+		{
+			if (UIController.instance != null)
+				UIController.instance.ShowMessage("Không có kết nối API để tạo gợi ý công thức.");
+		}
+	}
+
+	private List<RecipeSuggestion> ParseRecipeSuggestions(string jsonResponse)
+	{
+		try
+		{
+			if (jsonResponse.Contains("[") && jsonResponse.Contains("]"))
+			{
+				int startIndex = jsonResponse.IndexOf("[");
+				int endIndex = jsonResponse.LastIndexOf("]") + 1;
+				if (startIndex >= 0 && endIndex > startIndex)
+				{
+					string jsonArray = jsonResponse.Substring(startIndex, endIndex - startIndex);
+					string wrappedJson = $"{{\"suggestions\":{jsonArray}}}";
+					SuggestionWrapper wrapper = JsonUtility.FromJson<SuggestionWrapper>(wrappedJson);
+					if (wrapper != null && wrapper.suggestions != null && wrapper.suggestions.Length > 0)
+					{
+						return new List<RecipeSuggestion>(wrapper.suggestions);
+					}
+				}
+			}
+
+			RecipeSuggestion fallback = new RecipeSuggestion
+			{
+				name = "Gợi ý từ AI",
+				description = jsonResponse
+			};
+			return new List<RecipeSuggestion> { fallback };
+		}
+		catch (Exception e)
+		{
+			Debug.LogError($"Lỗi khi phân tích JSON: {e.Message}");
+			return null;
+		}
+	}
 }

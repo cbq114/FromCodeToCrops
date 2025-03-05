@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
+using System.Threading.Tasks;
 
 public class PetMenuController : MonoBehaviour
 {
@@ -31,6 +33,9 @@ public class PetMenuController : MonoBehaviour
 
     private int petFoodCount = 0;
 
+    [Header("Chat Feature")]
+    public TMP_InputField chatInputField;
+    public Button sendChatButton;
 
     void Start()
     {
@@ -48,7 +53,7 @@ public class PetMenuController : MonoBehaviour
         closeButton.onClick.AddListener(ClosePetMenu);
 
         followButton.onClick.AddListener(OnFollowButtonClick);
-    
+
 
         confirmNameButton.onClick.AddListener(ConfirmNewName);
         cancelNameButton.onClick.AddListener(() => renamePanel.SetActive(false));
@@ -57,13 +62,49 @@ public class PetMenuController : MonoBehaviour
         LoadPetFoodCount();
         UpdateFoodCountUI();
         UpdateFollowButtonUI();
+        if (sendChatButton != null)
+            sendChatButton.onClick.AddListener(OnSendChatButtonClick);
+
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P)) // Phím P để mở menu thú cưng
+        if (Input.GetKeyDown(KeyCode.V)) // Phím V để mở menu thú cưng
         {
             TogglePetMenu();
+        }
+    }
+
+    private void OnSendChatButtonClick()
+    {
+        if (chatInputField != null && !string.IsNullOrEmpty(chatInputField.text))
+        {
+            string playerMessage = chatInputField.text;
+            chatInputField.text = "";
+
+            // Hiển thị tin nhắn của người chơi
+            UIController.instance.ShowMessage($"Bạn: {playerMessage}");
+
+            // Lấy phản hồi từ thú cưng
+            if (PetSystem.instance != null)
+            {
+                StartCoroutine(GetPetChatResponseCoroutine(playerMessage));
+            }
+        }
+    }
+    private IEnumerator GetPetChatResponseCoroutine(string playerMessage)
+    {
+        if (PetSystem.instance != null)
+        {
+            yield return new WaitForSeconds(1.0f); // Tạm dừng ngắn để cảm giác tự nhiên
+
+            Task<string> responseTask = PetSystem.instance.GetPetResponse($"talk to me saying \"{playerMessage}\"");
+            yield return new WaitUntil(() => responseTask.IsCompleted);
+
+            if (responseTask.IsCompletedSuccessfully)
+            {
+                UIController.instance.ShowMessage($"{PetSystem.instance.petName}: {responseTask.Result}");
+            }
         }
     }
 
@@ -108,7 +149,7 @@ public class PetMenuController : MonoBehaviour
         if (PetSystem.instance != null)
         {
             petNameText.text = PetSystem.instance.petName;
-            affectionLevelText.text = $"Độ thân thiết: {PetSystem.instance.affectionLevel}/{PetSystem.instance.maxAffectionLevel}";
+            affectionLevelText.text = $"Intimacy: {PetSystem.instance.affectionLevel}/{PetSystem.instance.maxAffectionLevel}";
 
             // Thêm kiểm tra mảng affectionIcons trước khi truy cập
             if (PetSystem.instance.affectionIcons != null && PetSystem.instance.affectionIcons.Length > 0)
@@ -169,7 +210,7 @@ public class PetMenuController : MonoBehaviour
             UpdatePetMenuInfo();
 
             // Hiển thị thông báo
-            UIController.instance.ShowMessage($"Đã đổi tên thú cưng thành: {nameInputField.text}!");
+            UIController.instance.ShowMessage($"Renamed pet to: {nameInputField.text}!");
         }
     }
 
@@ -197,7 +238,7 @@ public class PetMenuController : MonoBehaviour
         SavePetFoodCount();
         UpdateFoodCountUI();
 
-        UIController.instance.ShowMessage($"Nhận được {amount} thức ăn cho thú cưng!");
+        UIController.instance.ShowMessage($"Get {amount} of pet food!");
     }
 
     private void UpdateFoodCountUI()
@@ -250,7 +291,7 @@ public class PetMenuController : MonoBehaviour
         if (PetSystem.instance != null && followButtonText != null)
         {
             bool isFollowing = PetSystem.instance.isFollowing;
-            followButtonText.text = isFollowing ? "Ở Yên" : "Đi Theo";
+            followButtonText.text = isFollowing ? "Stay put" : "Follow";
 
             // Nếu bạn muốn thay đổi cả icon
             Image buttonImage = followButton.GetComponent<Image>();

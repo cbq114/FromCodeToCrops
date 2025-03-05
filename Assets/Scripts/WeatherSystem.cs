@@ -1,71 +1,92 @@
-// Tạo file WeatherSystem.cs
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 
 public class WeatherSystem : MonoBehaviour
 {
 	public static WeatherSystem instance;
 
+	public enum WeatherType
+	{
+		Clear,
+		Rain,
+		Storm,
+		Fog
+	}
+
 	[Header("Weather Settings")]
-	public GameObject rainEffect; // Prefab hiệu ứng mưa (particles)
-	public float rainChance = 0.2f; // Xác suất mưa mỗi ngày
-	public float rainDuration = 3f; // Thời gian mưa (giờ)
+	public GameObject rainEffect;
+	public float rainChance = 0.2f;
+	public float rainDuration = 3f;
+
+	[Header("Additional Effects")]
+	public GameObject stormEffect;
+	public GameObject snowEffect;
 
 	private bool isRaining = false;
-
-	public bool isStorming = false;
-	public bool isSnowing = false;
-	public GameObject stormEffect; // Kéo game object hiệu ứng bão vào đây trong Inspector
-	public GameObject snowEffect; // Kéo game object hiệu ứng tuyết vào đây trong Inspector
+	private bool isStorming = false;
+	private bool isSnowing = false;
+	private bool hasDetailedForecastPending = false;
+	public WeatherType currentWeatherType = WeatherType.Clear;
 
 	private void Awake()
 	{
-		instance = this;
+		if (instance == null)
+			instance = this;
+		else
+			Destroy(gameObject);
+
 		rainEffect.SetActive(false);
+		if (stormEffect != null) stormEffect.SetActive(false);
+		if (snowEffect != null) snowEffect.SetActive(false);
 	}
 
-	// Gọi hàm này khi bắt đầu ngày mới
 	public void CheckWeatherForNewDay()
 	{
-		float baseRainChance = rainChance;
-
-		// Điều chỉnh xác suất mưa theo mùa
-		if (SeasonSystem.instance != null)
+		WeatherAI weatherAI = GetComponent<WeatherAI>();
+		if (weatherAI != null)
 		{
-			switch (SeasonSystem.instance.currentSeason)
-			{
-				case SeasonSystem.Season.Spring:
-					baseRainChance *= 1.2f; // Mùa xuân mưa nhiều hơn
-					break;
-
-				case SeasonSystem.Season.Summer:
-					// Mùa hè có thể có bão
-					if (Random.value < 0.05f) // 5% cơ hội có bão
-					{
-						StartStorm();
-						return;
-					}
-					break;
-
-				case SeasonSystem.Season.Fall:
-					baseRainChance *= 1.1f;
-					break;
-
-				case SeasonSystem.Season.Winter:
-					baseRainChance *= 0.5f; // Mùa đông ít mưa hơn
-					if (Random.value < baseRainChance)
-					{
-						StartSnow(); // Tuyết thay vì mưa
-						return;
-					}
-					break;
-			}
+			currentWeatherType = weatherAI.PredictWeather();
+			ApplyWeather(currentWeatherType);
 		}
-
-		if (Random.value < baseRainChance)
+		else
 		{
-			StartRain();
+			float chance = Random.value;
+			if (chance < rainChance * 0.3f) // 30% of rainChance for storm
+				StartStorm();
+			else if (chance < rainChance)
+				StartRain();
+			else if (chance < rainChance * 1.5f && SeasonSystem.instance.currentSeason == SeasonSystem.Season.Winter)
+				StartSnow();
+			else
+				ApplyWeather(WeatherType.Clear);
+		}
+	}
+
+	public void ApplyWeather(WeatherType weatherType)
+	{
+		rainEffect.SetActive(false);
+		if (stormEffect != null) stormEffect.SetActive(false);
+		if (snowEffect != null) snowEffect.SetActive(false);
+
+		switch (weatherType)
+		{
+			case WeatherType.Rain:
+				rainEffect.SetActive(true);
+				isRaining = true;
+				break;
+			case WeatherType.Storm:
+				if (stormEffect != null) stormEffect.SetActive(true);
+				isStorming = true;
+				break;
+			case WeatherType.Fog:
+				// Add fog effect logic here if implemented
+				break;
+			case WeatherType.Clear:
+			default:
+				isRaining = false;
+				isStorming = false;
+				isSnowing = false;
+				break;
 		}
 	}
 
@@ -73,8 +94,8 @@ public class WeatherSystem : MonoBehaviour
 	{
 		isRaining = true;
 		rainEffect.SetActive(true);
+		currentWeatherType = WeatherType.Rain;
 
-		// Tính toán thời gian kết thúc mưa dựa trên thời gian trong game
 		float rainEndTime = TimeController.instance.currentTime + rainDuration;
 		if (rainEndTime > TimeController.instance.dayEnd)
 			rainEndTime = TimeController.instance.dayEnd;
@@ -82,45 +103,16 @@ public class WeatherSystem : MonoBehaviour
 		StartCoroutine(StopRainAt(rainEndTime));
 	}
 
-	private IEnumerator StopRainAt(float endTime)
-	{
-		// Đợi cho đến khi đến thời gian kết thúc
-		while (TimeController.instance.currentTime < endTime && isRaining)
-		{
-			yield return null;
-		}
-
-		isRaining = false;
-		rainEffect.SetActive(false);
-	}
-
-	// Kiểm tra xem có đang mưa không
-	public bool IsRaining()
-	{
-		return isRaining;
-	}
-
-	// Tăng tốc độ phát triển cây trồng khi trời mưa
-	public void ApplyRainBoostToCrops()
-	{
-		if (isRaining)
-		{
-			// Tăng tốc độ phát triển của tất cả cây trồng
-			GridInfo.instance.RainBoostAllCrops();
-		}
-	}
 	private void StartStorm()
 	{
 		isRaining = true;
 		isStorming = true;
 		rainEffect.SetActive(true);
-		stormEffect.SetActive(true);
+		if (stormEffect != null) stormEffect.SetActive(true);
+		currentWeatherType = WeatherType.Storm;
 
-		// Hiệu ứng âm thanh sấm sét
 		if (AudioManager.instance != null)
-		{
-			AudioManager.instance.PlaySFX(9); // Giả sử số 9 là âm thanh sấm sét
-		}
+			AudioManager.instance.PlaySFX(9);
 
 		float stormEndTime = TimeController.instance.currentTime + rainDuration * 0.7f;
 		if (stormEndTime > TimeController.instance.dayEnd)
@@ -128,17 +120,15 @@ public class WeatherSystem : MonoBehaviour
 
 		StartCoroutine(StopStormAt(stormEndTime));
 	}
+
 	private void StartSnow()
 	{
-		isRaining = false; // Không mưa nước mà mưa tuyết
 		isSnowing = true;
-		snowEffect.SetActive(true);
+		if (snowEffect != null) snowEffect.SetActive(true);
+		currentWeatherType = WeatherType.Clear; // Snow isn't a WeatherType yet, using Clear as placeholder
 
-		// Phát âm thanh tuyết rơi nếu cần
 		if (AudioManager.instance != null)
-		{
-			AudioManager.instance.PlaySFX(10); // Giả sử âm thanh tuyết rơi là số 10
-		}
+			AudioManager.instance.PlaySFX(10);
 
 		float snowEndTime = TimeController.instance.currentTime + rainDuration;
 		if (snowEndTime > TimeController.instance.dayEnd)
@@ -147,27 +137,118 @@ public class WeatherSystem : MonoBehaviour
 		StartCoroutine(StopSnowAt(snowEndTime));
 	}
 
+	private IEnumerator StopRainAt(float endTime)
+	{
+		while (TimeController.instance.currentTime < endTime && isRaining)
+			yield return null;
+
+		isRaining = false;
+		rainEffect.SetActive(false);
+		currentWeatherType = WeatherType.Clear;
+	}
+
 	private IEnumerator StopStormAt(float endTime)
 	{
-		// Đợi cho đến khi đến thời gian kết thúc
 		while (TimeController.instance.currentTime < endTime && isStorming)
-		{
 			yield return null;
-		}
+
 		isRaining = false;
 		isStorming = false;
 		rainEffect.SetActive(false);
-		stormEffect.SetActive(false);
+		if (stormEffect != null) stormEffect.SetActive(false);
+		currentWeatherType = WeatherType.Clear;
 	}
 
 	private IEnumerator StopSnowAt(float endTime)
 	{
-		// Đợi cho đến khi đến thời gian kết thúc
 		while (TimeController.instance.currentTime < endTime && isSnowing)
-		{
 			yield return null;
-		}
+
 		isSnowing = false;
-		snowEffect.SetActive(false);
+		if (snowEffect != null) snowEffect.SetActive(false);
+		currentWeatherType = WeatherType.Clear;
+	}
+
+	public bool IsRaining() => isRaining;
+
+	public void ApplyRainBoostToCrops()
+	{
+		if (isRaining)
+			GridInfo.instance.RainBoostAllCrops();
+	}
+
+	// Chỉnh sửa phương thức hiện tại để không sử dụng .Result
+	public string GetWeatherForecast()
+	{
+		WeatherAI weatherAI = GetComponent<WeatherAI>();
+
+		if (weatherAI == null)
+			return "Không có dự báo thời tiết.";
+
+		// Trả về thông tin sơ bộ ngay lập tức, không cần đợi API
+		string basicForecast = $"Thời tiết hôm nay: {GetWeatherName(currentWeatherType)}";
+
+		// Lưu trạng thái để có thể hiển thị chi tiết sau
+		hasDetailedForecastPending = true;
+
+		return basicForecast;
+	}
+
+	// Thêm phương thức để lấy tên thời tiết tiếng Việt
+	private string GetWeatherName(WeatherType type)
+	{
+		switch (type)
+		{
+			case WeatherType.Clear:
+				return "Quang đãng";
+			case WeatherType.Rain:
+				return "Mưa";
+			case WeatherType.Storm:
+				return "Bão";
+			case WeatherType.Fog:
+				return "Sương mù";
+			default:
+				return "Không xác định";
+		}
+	}
+
+	// Coroutine để lấy dự báo chi tiết và hiển thị
+	private IEnumerator GetDetailedForecastAsync()
+	{
+		if (GeminiAPIClient.instance != null)
+		{
+			// Bắt đầu request API
+			var task = GeminiAPIClient.instance.GetWeatherDescription(
+				currentWeatherType.ToString(),
+				SeasonSystem.instance.currentSeason.ToString(),
+				TimeController.instance.currentDay);
+
+			// Đợi 3 giây để đảm bảo người chơi đã đọc dự báo cơ bản
+			yield return new WaitForSeconds(3.0f);
+
+			// Đợi API trả về kết quả
+			while (!task.IsCompleted)
+				yield return null;
+
+			// Kiểm tra kỹ hơn trước khi sử dụng kết quả
+			if (!task.IsFaulted && task.IsCompletedSuccessfully && UIController.instance != null)
+			{
+				string detailedForecast = task.Result;
+				Debug.Log($"Detailed forecast received: {detailedForecast}");
+				UIController.instance.ShowMessage(detailedForecast);
+			}
+			else if (task.IsFaulted)
+			{
+				Debug.LogError("Weather API task failed: " + (task.Exception != null ? task.Exception.Message : "Unknown error"));
+			}
+		}
+	}
+	public void ShowDetailedForecast()
+	{
+		if (hasDetailedForecastPending)
+		{
+			StartCoroutine(GetDetailedForecastAsync());
+			hasDetailedForecastPending = false;
+		}
 	}
 }
