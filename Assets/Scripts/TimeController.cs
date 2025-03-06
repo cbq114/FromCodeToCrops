@@ -178,7 +178,7 @@ public class TimeController : MonoBehaviour
                 // Lấy dự báo chi tiết từ API nếu có
                 if (WeatherSystem.instance != null)
                 {
-                    WeatherSystem.instance.ShowDetailedForecast();
+                    WeatherSystem.instance.GetWeatherForecast();
                 }
 
                 // Reset các biến sau khi hiển thị

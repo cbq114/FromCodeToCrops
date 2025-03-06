@@ -1,22 +1,10 @@
 fileFormatVersion: 2
-guid: ce80a7ed2f11ddc49b22121c5aefce21
+guid: a4aeaf367542e764fb53e02ba0c81c67
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1409139692517636944
-    second: ELR_WinterlLeaf_0
-  - first:
-      213: 5328734811525785579
-    second: ELR_WinterlLeaf_1
-  - first:
-      213: -3666982086940454174
-    second: ELR_WinterlLeaf_2
-  - first:
-      213: 130877544812461712
-    second: ELR_WinterlLeaf_3
-  - first:
-      213: 8819582448620767825
-    second: ELR_WinterlLeaf_4
+      213: -1871640994697617530
+    second: "Ch\u01B0a c\xF3 t\xEAn (800 x 800 px) (400 x 400 px) (1)_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -125,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ELR_WinterlLeaf_0
+      name: "Ch\u01B0a c\xF3 t\xEAn (800 x 800 px) (400 x 400 px) (1)_0"
       rect:
         serializedVersion: 2
-        x: 4
-        y: 4
-        width: 9
-        height: 8
+        x: 111
+        y: 87
+        width: 194
+        height: 193
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,96 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 05bba6b95154e8310800000000000000
-      internalID: 1409139692517636944
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ELR_WinterlLeaf_1
-      rect:
-        serializedVersion: 2
-        x: 22
-        y: 3
-        width: 6
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: be7a047041873f940800000000000000
-      internalID: 5328734811525785579
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ELR_WinterlLeaf_2
-      rect:
-        serializedVersion: 2
-        x: 37
-        y: 3
-        width: 8
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2e2913e68334c1dc0800000000000000
-      internalID: -3666982086940454174
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ELR_WinterlLeaf_3
-      rect:
-        serializedVersion: 2
-        x: 51
-        y: 3
-        width: 9
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 09e3f9ffe68f0d100800000000000000
-      internalID: 130877544812461712
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ELR_WinterlLeaf_4
-      rect:
-        serializedVersion: 2
-        x: 66
-        y: 4
-        width: 8
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 15a8f454283756a70800000000000000
-      internalID: 8819582448620767825
+      spriteID: 68f5df38e689606e0800000000000000
+      internalID: -1871640994697617530
       vertices: []
       indices: 
       edges: []
@@ -248,11 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ELR_WinterlLeaf_0: 1409139692517636944
-      ELR_WinterlLeaf_1: 5328734811525785579
-      ELR_WinterlLeaf_2: -3666982086940454174
-      ELR_WinterlLeaf_3: 130877544812461712
-      ELR_WinterlLeaf_4: 8819582448620767825
+      "Ch\u01B0a c\xF3 t\xEAn (800 x 800 px) (400 x 400 px) (1)_0": -1871640994697617530
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

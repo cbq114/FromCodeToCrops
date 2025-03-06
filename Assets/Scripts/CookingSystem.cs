@@ -229,115 +229,52 @@ public class CookingSystem : MonoBehaviour
 	}
 
 	public void ShowRecipeSuggestions()
-	{
-		if (UIController.instance != null)
-			UIController.instance.ShowMessage("Đang tìm gợi ý công thức...");
+    {
+        if (UIController.instance != null)
+            UIController.instance.ShowMessage("Đang tìm gợi ý công thức...");
+        StartCoroutine(GetRecipeSuggestionsCoroutine());
+    }
 
-		StartCoroutine(GetRecipeSuggestionsCoroutine());
-	}
+    private IEnumerator GetRecipeSuggestionsCoroutine()
+    {
+        if (GeminiAPIClient.instance != null)
+        {
+            StringBuilder ingredients = new StringBuilder();
 
-	private IEnumerator GetRecipeSuggestionsCoroutine()
-	{
-		if (GeminiAPIClient.instance != null)
-		{
-			StringBuilder ingredients = new StringBuilder();
+            if (InventoryController.instance != null)
+            {
+                foreach (var item in InventoryController.instance.theItems)
+                {
+                    if (item != null && item.itemType == InventoryItem.ItemType.Crop)
+                    {
+                        ingredients.Append($"{item.itemName}: {item.numberHeld}, ");
+                    }
+                }
+            }
 
-			if (InventoryController.instance != null)
-			{
-				foreach (var item in InventoryController.instance.theItems)
-				{
-					if (item != null && item.itemType == InventoryItem.ItemType.Crop)
-					{
-						ingredients.Append($"{item.itemName}: {item.numberHeld}, ");
-					}
-				}
-			}
+            string prompt = $"Tôi có các nguyên liệu sau: {ingredients}. Hãy gợi ý 3 công thức nấu ăn phù hợp cho một game nông trại, mỗi công thức gồm tên và mô tả ngắn gọn.";
 
-			string prompt = $"Given these ingredients: {ingredients}, suggest 3 recipe names " +
-						   $"and their simple descriptions that would be suitable for a farming game. " +
-						   $"Format as JSON array with 'name' and 'description' fields.";
+            var task = GeminiAPIClient.instance.SendRequest(prompt);
 
-			var task = GeminiAPIClient.instance.SendRequest(prompt);
+            while (!task.IsCompleted)
+                yield return null;
 
-			while (!task.IsCompleted)
-				yield return null;
-
-			if (task.IsCompletedSuccessfully)
-			{
-				try
-				{
-					string jsonResponse = task.Result;
-					List<RecipeSuggestion> suggestions = ParseRecipeSuggestions(jsonResponse);
-
-					if (suggestions != null && suggestions.Count > 0)
-					{
-						StringBuilder message = new StringBuilder("Gợi ý công thức:\n\n");
-						foreach (RecipeSuggestion suggestion in suggestions)
-						{
-							message.AppendLine($"{suggestion.name}");
-							message.AppendLine($"{suggestion.description}");
-							message.AppendLine();
-						}
-						if (UIController.instance != null)
-							UIController.instance.ShowMessage(message.ToString());
-					}
-					else
-					{
-						if (UIController.instance != null)
-							UIController.instance.ShowMessage("Không thể tạo gợi ý công thức từ phản hồi AI.");
-					}
-				}
-				catch (Exception e)
-				{
-					Debug.LogError($"Lỗi khi xử lý phản hồi AI: {e.Message}");
-					if (UIController.instance != null)
-						UIController.instance.ShowMessage("Lỗi khi xử lý gợi ý công thức.");
-				}
-			}
-			else
-			{
-				if (UIController.instance != null)
-					UIController.instance.ShowMessage("Không thể tạo gợi ý công thức.");
-			}
-		}
-		else
-		{
-			if (UIController.instance != null)
-				UIController.instance.ShowMessage("Không có kết nối API để tạo gợi ý công thức.");
-		}
-	}
-
-	private List<RecipeSuggestion> ParseRecipeSuggestions(string jsonResponse)
-	{
-		try
-		{
-			if (jsonResponse.Contains("[") && jsonResponse.Contains("]"))
-			{
-				int startIndex = jsonResponse.IndexOf("[");
-				int endIndex = jsonResponse.LastIndexOf("]") + 1;
-				if (startIndex >= 0 && endIndex > startIndex)
-				{
-					string jsonArray = jsonResponse.Substring(startIndex, endIndex - startIndex);
-					string wrappedJson = $"{{\"suggestions\":{jsonArray}}}";
-					SuggestionWrapper wrapper = JsonUtility.FromJson<SuggestionWrapper>(wrappedJson);
-					if (wrapper != null && wrapper.suggestions != null && wrapper.suggestions.Length > 0)
-					{
-						return new List<RecipeSuggestion>(wrapper.suggestions);
-					}
-				}
-			}
-
-			RecipeSuggestion fallback = new RecipeSuggestion
-			{
-				name = "Gợi ý từ AI",
-				description = jsonResponse
-			};
-			return new List<RecipeSuggestion> { fallback };
-		}
-		catch (Exception e)
-		{
-			Debug.LogError($"Lỗi khi phân tích JSON: {e.Message}");
-			return null;
-		}
-	}
+            if (task.IsCompletedSuccessfully)
+            {
+                string suggestions = task.Result;
+                if (UIController.instance != null)
+                    UIController.instance.ShowMessage($"Gợi ý công thức:\n\n{suggestions}");
+            }
+            else
+            {
+                if (UIController.instance != null)
+                    UIController.instance.ShowMessage("Không thể tạo gợi ý công thức.");
+            }
+        }
+        else
+        {
+            if (UIController.instance != null)
+                UIController.instance.ShowMessage("Không có kết nối API để tạo gợi ý công thức.");
+        }
+    }
 }

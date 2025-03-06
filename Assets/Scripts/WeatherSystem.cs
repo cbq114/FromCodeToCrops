@@ -22,9 +22,9 @@ public class WeatherSystem : MonoBehaviour
 	public GameObject stormEffect;
 	public GameObject snowEffect;
 
-	private bool isRaining = false;
-	private bool isStorming = false;
-	private bool isSnowing = false;
+	public bool isRaining = false;
+	public bool isStorming = false;
+	public bool isSnowing = false;
 	private bool hasDetailedForecastPending = false;
 	public WeatherType currentWeatherType = WeatherType.Clear;
 
@@ -179,76 +179,59 @@ public class WeatherSystem : MonoBehaviour
 
 	// Chỉnh sửa phương thức hiện tại để không sử dụng .Result
 	public string GetWeatherForecast()
-	{
-		WeatherAI weatherAI = GetComponent<WeatherAI>();
+    {
+        string basicForecast = $"Thời tiết hôm nay: {GetWeatherName(currentWeatherType)}";
+        StartCoroutine(GetDetailedForecastAsync()); // Tự động lấy dự báo chi tiết
+        return basicForecast;
+    }
 
-		if (weatherAI == null)
-			return "Không có dự báo thời tiết.";
+    private string GetWeatherName(WeatherType type)
+    {
+        switch (type)
+        {
+            case WeatherType.Clear:
+                return "Clear";
+            case WeatherType.Rain:
+                return "Rain";
+            case WeatherType.Storm:
+                return "Storm";
+            case WeatherType.Fog:
+                return "Fog";
+            default:
+                return "Unknown";
+        }
+    }
 
-		// Trả về thông tin sơ bộ ngay lập tức, không cần đợi API
-		string basicForecast = $"Thời tiết hôm nay: {GetWeatherName(currentWeatherType)}";
+    private IEnumerator GetDetailedForecastAsync()
+    {
+        if (GeminiAPIClient.instance != null)
+        {
+            var task = GeminiAPIClient.instance.GetWeatherDescription(
+                currentWeatherType.ToString(),
+                SeasonSystem.instance.currentSeason.ToString(),
+                TimeController.instance.currentDay);
 
-		// Lưu trạng thái để có thể hiển thị chi tiết sau
-		hasDetailedForecastPending = true;
+            // Đợi API hoàn thành
+            while (!task.IsCompleted)
+                yield return null;
 
-		return basicForecast;
-	}
-
-	// Thêm phương thức để lấy tên thời tiết tiếng Việt
-	private string GetWeatherName(WeatherType type)
-	{
-		switch (type)
-		{
-			case WeatherType.Clear:
-				return "Quang đãng";
-			case WeatherType.Rain:
-				return "Mưa";
-			case WeatherType.Storm:
-				return "Bão";
-			case WeatherType.Fog:
-				return "Sương mù";
-			default:
-				return "Không xác định";
-		}
-	}
-
-	// Coroutine để lấy dự báo chi tiết và hiển thị
-	private IEnumerator GetDetailedForecastAsync()
-	{
-		if (GeminiAPIClient.instance != null)
-		{
-			// Bắt đầu request API
-			var task = GeminiAPIClient.instance.GetWeatherDescription(
-				currentWeatherType.ToString(),
-				SeasonSystem.instance.currentSeason.ToString(),
-				TimeController.instance.currentDay);
-
-			// Đợi 3 giây để đảm bảo người chơi đã đọc dự báo cơ bản
-			yield return new WaitForSeconds(3.0f);
-
-			// Đợi API trả về kết quả
-			while (!task.IsCompleted)
-				yield return null;
-
-			// Kiểm tra kỹ hơn trước khi sử dụng kết quả
-			if (!task.IsFaulted && task.IsCompletedSuccessfully && UIController.instance != null)
-			{
-				string detailedForecast = task.Result;
-				Debug.Log($"Detailed forecast received: {detailedForecast}");
-				UIController.instance.ShowMessage(detailedForecast);
-			}
-			else if (task.IsFaulted)
-			{
-				Debug.LogError("Weather API task failed: " + (task.Exception != null ? task.Exception.Message : "Unknown error"));
-			}
-		}
-	}
-	public void ShowDetailedForecast()
-	{
-		if (hasDetailedForecastPending)
-		{
-			StartCoroutine(GetDetailedForecastAsync());
-			hasDetailedForecastPending = false;
-		}
-	}
+            if (!task.IsFaulted && task.IsCompletedSuccessfully && UIController.instance != null)
+            {
+                string detailedForecast = task.Result;
+                Debug.Log($"Dự báo chi tiết: {detailedForecast}");
+                UIController.instance.ShowMessage($"Weather forecast: {detailedForecast}");
+            }
+            else if (task.IsFaulted)
+            {
+                Debug.LogError("Lỗi API thời tiết: " + (task.Exception != null ? task.Exception.Message : "Lỗi không xác định"));
+                if (UIController.instance != null)
+                    UIController.instance.ShowMessage("Không thể lấy dự báo chi tiết.");
+            }
+        }
+        else
+        {
+            if (UIController.instance != null)
+                UIController.instance.ShowMessage("Không có kết nối API để lấy dự báo.");
+        }
+    }
 }

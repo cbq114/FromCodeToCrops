@@ -121,7 +121,7 @@ public class SaveManager : MonoBehaviour
 
             // Hiển thị thông báo cho người chơi
             if (UIController.instance != null)
-                UIController.instance.ShowMessage("Game đã được lưu thành công!");
+                UIController.instance.ShowMessage("Game saved successfully!");
         }
         catch (Exception e)
         {
@@ -231,7 +231,7 @@ public class SaveManager : MonoBehaviour
                 Debug.Log("Game đã được tải thành công!");
                 // Hiển thị thông báo cho người chơi
                 if (UIController.instance != null)
-                    UIController.instance.ShowMessage("Game đã được tải thành công!");
+                    UIController.instance.ShowMessage("Game loaded successfully!");
             }
             catch (Exception e)
             {
@@ -242,7 +242,7 @@ public class SaveManager : MonoBehaviour
         {
             Debug.Log("Không tìm thấy file lưu game!");
             if (UIController.instance != null)
-                UIController.instance.ShowMessage("Không tìm thấy file lưu game!");
+                UIController.instance.ShowMessage("Save game file not found!");
         }
     }
 }
