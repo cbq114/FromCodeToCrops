@@ -136,7 +136,7 @@ public class CookingSystem : MonoBehaviour
 
 		CookingInventory.instance.AddItem(currentRecipe.resultItem, currentRecipe.resultAmount);
 		UIController.instance.ShowMessage($"Đã nấu thành công: {currentRecipe.recipeName}");
-		AudioManager.instance.PlaySFX(8);
+		//AudioManager.instance.PlaySFX(8);
 		SelectRecipe(currentRecipe);
 	}
 

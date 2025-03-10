@@ -60705,10 +60705,10 @@ MonoBehaviour:
   toolIndicator: {fileID: 740435852}
   toolRange: 3
   seedCropType: 0
-  maxStamina: 100
-  currentStamina: 100
+  maxStamina: 1000
+  currentStamina: 1000
   staminaRegenRate: 10
-  staminaUsePerAction: 8
+  staminaUsePerAction: 10
 --- !u!70 &1017967113
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
