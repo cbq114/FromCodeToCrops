@@ -60,13 +60,24 @@ public class MainMenuController : MonoBehaviour
         string path = Application.persistentDataPath + "/savegame.json";
         if (File.Exists(path))
         {
+            // Chuyển scene trước khi kiểm tra các instance
             SceneManager.LoadScene("Main");
-            // SaveManager sẽ tự động load trong Start()
+            
+            // Lưu ý: Sau khi chuyển scene, các instance có thể chưa được khởi tạo ngay lập tức
+            // Nên không nên gọi các instance ở đây, vì scene mới đang được tải
+            
+            // SaveManager sẽ tự động load trong Start() của nó sau khi scene mới được tải
         }
         else
         {
             // Hiển thị thông báo không có save
             Debug.Log("Không có file lưu game!");
+            
+            // Nếu muốn hiển thị thông báo cho người dùng, kiểm tra UIController trước
+            if (UIController.instance != null)
+            {
+                UIController.instance.ShowMessage("Không tìm thấy file lưu game!");
+            }
         }
     }
 }

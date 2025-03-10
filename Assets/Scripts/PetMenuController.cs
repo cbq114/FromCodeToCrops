@@ -85,28 +85,9 @@ public class PetMenuController : MonoBehaviour
             // Hiển thị tin nhắn của người chơi
             UIController.instance.ShowMessage($"Bạn: {playerMessage}");
 
-            // Lấy phản hồi từ thú cưng
-            if (PetSystem.instance != null)
-            {
-                StartCoroutine(GetPetChatResponseCoroutine(playerMessage));
-            }
         }
     }
-    private IEnumerator GetPetChatResponseCoroutine(string playerMessage)
-    {
-        if (PetSystem.instance != null)
-        {
-            yield return new WaitForSeconds(1.0f); // Tạm dừng ngắn để cảm giác tự nhiên
 
-            Task<string> responseTask = PetSystem.instance.GetPetResponse($"talk to me saying \"{playerMessage}\"");
-            yield return new WaitUntil(() => responseTask.IsCompleted);
-
-            if (responseTask.IsCompletedSuccessfully)
-            {
-                UIController.instance.ShowMessage($"{PetSystem.instance.petName}: {responseTask.Result}");
-            }
-        }
-    }
 
     public void TogglePetMenu()
     {

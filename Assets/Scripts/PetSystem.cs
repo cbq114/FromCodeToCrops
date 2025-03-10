@@ -272,8 +272,6 @@ public class PetSystem : MonoBehaviour
         // Tăng tình cảm như hiện tại
         IncreasePetAffection(1);
 
-        // Lấy phản hồi từ thú cưng về việc được vuốt ve
-        StartCoroutine(GetPetResponseCoroutine("pet me"));
 
         // Hiệu ứng âm thanh
         if (AudioManager.instance != null)
@@ -285,8 +283,6 @@ public class PetSystem : MonoBehaviour
         // Tăng tình cảm như hiện tại
         IncreasePetAffection(2);
 
-        // Lấy phản hồi từ thú cưng về việc được cho ăn
-        StartCoroutine(GetPetResponseCoroutine("feed me"));
 
         // Hiệu ứng âm thanh
         if (AudioManager.instance != null)
@@ -329,7 +325,7 @@ public class PetSystem : MonoBehaviour
                 $"{petName} sẽ đi theo bạn." :
                 $"{petName} sẽ ở yên tại chỗ.");
 
-        StartCoroutine(GetPetResponseCoroutine(isFollowing ? "told me to follow" : "told me to stay"));
+
     }
 
     private IEnumerator ExploreAround()
@@ -346,7 +342,7 @@ public class PetSystem : MonoBehaviour
         yield return new WaitForSeconds(Random.Range(3f, 8f));
         isExploring = false;
 
-        StartCoroutine(GetPetResponseCoroutine("explored around"));
+
     }
 
     private void ExploreArea()
@@ -364,24 +360,4 @@ public class PetSystem : MonoBehaviour
         lastPosition = activePet.transform.position;
     }
 
-    public async Task<string> GetPetResponse(string playerAction)
-    {
-        if (GeminiAPIClient.instance == null)
-            return "API không khả dụng.";
-
-        string prompt = $"You are a {petType} pet named {petName} with affection level {affectionLevel}/5. " +
-                       $"The player just {playerAction}. How do you react? " +
-                       $"Respond with a very short description of your behavior (max 1 sentence).";
-
-        return await GeminiAPIClient.instance.SendRequest(prompt);
-    }
-
-    private IEnumerator GetPetResponseCoroutine(string playerAction)
-    {
-        Task<string> responseTask = GetPetResponse(playerAction);
-        yield return new WaitUntil(() => responseTask.IsCompleted);
-
-        if (UIController.instance != null)
-            UIController.instance.ShowMessage($"{petName}: {responseTask.Result}");
-    }
 }
