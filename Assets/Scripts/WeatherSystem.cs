@@ -180,7 +180,7 @@ public class WeatherSystem : MonoBehaviour
 	// Chỉnh sửa phương thức hiện tại để không sử dụng .Result
 	public string GetWeatherForecast()
     {
-        string basicForecast = $"Thời tiết hôm nay: {GetWeatherName(currentWeatherType)}";
+        string basicForecast = $"Today's weather: {GetWeatherName(currentWeatherType)}";
         StartCoroutine(GetDetailedForecastAsync()); // Tự động lấy dự báo chi tiết
         return basicForecast;
     }

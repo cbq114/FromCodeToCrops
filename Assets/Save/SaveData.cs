@@ -4,6 +4,34 @@ using UnityEngine;
 namespace GameSave
 {
     [Serializable]
+    public class StringIntPair
+    {
+        public string key;
+        public int value;
+    }
+
+    [Serializable]
+    public class SerializableDictionary
+    {
+        public List<StringIntPair> pairs = new List<StringIntPair>();
+
+        public void AddPair(string key, int value)
+        {
+            pairs.Add(new StringIntPair { key = key, value = value });
+        }
+
+        public Dictionary<string, int> ToDictionary()
+        {
+            Dictionary<string, int> result = new Dictionary<string, int>();
+            foreach (var pair in pairs)
+            {
+                result[pair.key] = pair.value;
+            }
+            return result;
+        }
+    }
+
+    [Serializable]
     public class SaveData
     {
         // Thông tin người chơi

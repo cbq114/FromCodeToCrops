@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using GameSave;
+
 public class SaveManager : MonoBehaviour
 {
     public static SaveManager instance;
@@ -56,9 +57,12 @@ public class SaveManager : MonoBehaviour
                     {
                         x = Mathf.FloorToInt(block.transform.position.x),
                         y = Mathf.FloorToInt(block.transform.position.y),
-						isPlowed = (block.currentStage == GrowBlock.GrowthStage.ploughed),
-						isWatered = block.isWatered
+                        isPlowed = (block.currentStage == GrowBlock.GrowthStage.ploughed),
+                        isWatered = block.isWatered,
                         // Thêm thông tin về cây trồng nếu có
+                        cropType = block.currentCrop != null ? block.currentCrop.cropType.ToString() : "",
+                        growthStage = block.currentCrop != null ? (int)block.currentCrop.currentGrowthStage : -1,
+                        growthTime = block.currentCrop != null ? block.currentCrop.currentGrowthTime : 0f
                     };
                     data.farmTiles.Add(tileData);
                 }
@@ -74,15 +78,18 @@ public class SaveManager : MonoBehaviour
         // Lưu kho hạt giống và nông sản
         if (CropController.instance != null)
         {
-            // Sửa: Khởi tạo các dictionary serializable
+            // Khởi tạo các dictionary serializable
             data.seedInventory = new SerializableDictionary();
             data.cropInventory = new SerializableDictionary();
 
-            // Sửa: Cú pháp foreach đúng
+            // Lưu từng loại cây trồng
             foreach (CropInfo crop in CropController.instance.cropList)
             {
-                data.seedInventory.AddPair(crop.cropType.ToString(), crop.seedAmount);
-                data.cropInventory.AddPair(crop.cropType.ToString(), crop.cropAmount);
+                if (crop != null)
+                {
+                    data.seedInventory.AddPair(crop.cropType.ToString(), crop.seedAmount);
+                    data.cropInventory.AddPair(crop.cropType.ToString(), crop.cropAmount);
+                }
             }
         }
 
@@ -91,19 +98,19 @@ public class SaveManager : MonoBehaviour
         {
             data.petName = PetSystem.instance.petName;
             data.petAffection = PetSystem.instance.affectionLevel;
+            data.petFoodCount = PetSystem.instance.foodCount;
         }
-
-        // Lưu thức ăn thú cưng
-        if (FindObjectOfType<PetMenuController>() != null)
+        else
         {
+            // Lưu thức ăn thú cưng từ PlayerPrefs nếu không có instance
             data.petFoodCount = PlayerPrefs.GetInt("PetFoodCount", 0);
         }
 
         // Lưu thời gian và mùa
         if (TimeController.instance != null)
         {
-			data.timeOfDay = TimeController.instance.currentTime;
-			data.currentDay = TimeController.instance.currentDay;
+            data.currentTime = TimeController.instance.currentTime;
+            data.currentDay = TimeController.instance.currentDay;
         }
 
         if (SeasonSystem.instance != null)
@@ -118,6 +125,7 @@ public class SaveManager : MonoBehaviour
             File.WriteAllText(Application.persistentDataPath + "/savegame.json", json);
 
             Debug.Log("Game đã được lưu thành công!");
+            Debug.Log("Saved data: " + json);
 
             // Hiển thị thông báo cho người chơi
             if (UIController.instance != null)
@@ -140,6 +148,8 @@ public class SaveManager : MonoBehaviour
                 string json = File.ReadAllText(path);
                 SaveData data = JsonUtility.FromJson<SaveData>(json);
 
+                Debug.Log("Loading data: " + json);
+
                 // Khôi phục vị trí người chơi
                 if (PlayerController.instance != null)
                 {
@@ -157,13 +167,32 @@ public class SaveManager : MonoBehaviour
                         GrowBlock block = GridController.instance.GetBlock(tileData.x, tileData.y);
                         if (block != null)
                         {
+                            // Reset block trước khi áp dụng dữ liệu mới
+                            block.ResetBlock();
+                            
                             if (tileData.isPlowed)
-                                block.PloughSoil(); // Không tiêu thể lực
+                                block.PloughSoil(false); // Không tiêu thể lực
 
                             if (tileData.isWatered)
-                                block.WaterSoil();
+                                block.WaterSoil(false); // Không tiêu thể lực
 
                             // Khôi phục cây trồng nếu có
+                            if (!string.IsNullOrEmpty(tileData.cropType) && tileData.growthStage >= 0)
+                            {
+                                CropController.CropType cropType = (CropController.CropType)Enum.Parse(
+                                    typeof(CropController.CropType), tileData.cropType);
+                                
+                                // Tạo cây trồng mới
+                                block.PlantCrop(cropType, false); // Không tiêu thể lực và hạt giống
+                                
+                                if (block.currentCrop != null)
+                                {
+                                    // Thiết lập giai đoạn phát triển
+                                    block.currentCrop.currentGrowthStage = (CropController.GrowthStage)tileData.growthStage;
+                                    block.currentCrop.currentGrowthTime = tileData.growthTime;
+                                    block.currentCrop.UpdateVisuals();
+                                }
+                            }
                         }
                     }
                 }
@@ -171,28 +200,49 @@ public class SaveManager : MonoBehaviour
                 // Khôi phục tiền
                 if (MoneyManager.instance != null)
                 {
-                    // Sửa: Sử dụng AddMoney thay vì gán trực tiếp
-                    MoneyManager.instance.AddMoney(data.money - MoneyManager.instance.GetMoney());
+                    // Đặt lại tiền về 0 trước khi thêm
+                    MoneyManager.instance.SetMoney(0);
+                    MoneyManager.instance.AddMoney(data.money);
                 }
 
                 // Khôi phục kho hạt giống và nông sản
                 if (CropController.instance != null)
                 {
+                    // Xóa dữ liệu hiện tại
+                    CropController.instance.ResetInventory();
+                    
                     // Sử dụng dictionary đã chuyển đổi
-                    Dictionary<string, int> seedDict = data.seedInventory.ToDictionary();
-                    Dictionary<string, int> cropDict = data.cropInventory.ToDictionary();
+                    Dictionary<string, int> seedDict = data.seedInventory?.ToDictionary() ?? new Dictionary<string, int>();
+                    Dictionary<string, int> cropDict = data.cropInventory?.ToDictionary() ?? new Dictionary<string, int>();
 
                     foreach (var pair in seedDict)
                     {
-                        CropController.CropType cropType = (CropController.CropType)Enum.Parse(typeof(CropController.CropType), pair.Key);
-                        CropController.instance.SetSeedAmount(cropType, pair.Value);
+                        try
+                        {
+                            CropController.CropType cropType = (CropController.CropType)Enum.Parse(typeof(CropController.CropType), pair.Key);
+                            CropController.instance.SetSeedAmount(cropType, pair.Value);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.LogWarning($"Không thể chuyển đổi loại cây trồng: {pair.Key}. Lỗi: {e.Message}");
+                        }
                     }
 
                     foreach (var pair in cropDict)
                     {
-                        CropController.CropType cropType = (CropController.CropType)Enum.Parse(typeof(CropController.CropType), pair.Key);
-                        CropController.instance.SetCropAmount(cropType, pair.Value);
+                        try
+                        {
+                            CropController.CropType cropType = (CropController.CropType)Enum.Parse(typeof(CropController.CropType), pair.Key);
+                            CropController.instance.SetCropAmount(cropType, pair.Value);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.LogWarning($"Không thể chuyển đổi loại nông sản: {pair.Key}. Lỗi: {e.Message}");
+                        }
                     }
+                    
+                    // Cập nhật UI hiển thị kho
+                    CropController.instance.UpdateInventoryUI();
                 }
 
                 // Khôi phục thông tin thú cưng
@@ -200,32 +250,34 @@ public class SaveManager : MonoBehaviour
                 {
                     PetSystem.instance.petName = data.petName;
                     PetSystem.instance.affectionLevel = data.petAffection;
+                    PetSystem.instance.foodCount = data.petFoodCount;
+                    PetSystem.instance.UpdatePetUI();
                 }
-
-                // Khôi phục thức ăn thú cưng
-                if (FindObjectOfType<PetMenuController>() != null)
+                else
                 {
+                    // Lưu vào PlayerPrefs nếu không có instance
                     PlayerPrefs.SetInt("PetFoodCount", data.petFoodCount);
+                    
+                    // Nếu có PetMenuController, cập nhật UI
                     PetMenuController petMenuCtrl = FindObjectOfType<PetMenuController>();
                     if (petMenuCtrl != null)
                     {
-                        // Nếu muốn giữ các phương thức private, bạn có thể tạo một phương thức public mới:
-                        petMenuCtrl.ReloadPetFoodData(); // Thêm phương thức này vào PetMenuController
+                        petMenuCtrl.ReloadPetFoodData();
                     }
-
                 }
 
                 // Khôi phục thời gian và mùa
                 if (TimeController.instance != null)
                 {
-                    TimeController.instance.currentTime = data.timeOfDay;
+                    TimeController.instance.currentTime = data.currentTime;
                     TimeController.instance.currentDay = data.currentDay;
-                    UIController.instance.UpdateTimeText(TimeController.instance.currentTime);
+                    TimeController.instance.UpdateTimeUI();
                 }
 
                 if (SeasonSystem.instance != null)
                 {
                     SeasonSystem.instance.currentSeason = (SeasonSystem.Season)data.currentSeason;
+                    SeasonSystem.instance.UpdateSeasonUI();
                 }
 
                 Debug.Log("Game đã được tải thành công!");
@@ -236,6 +288,7 @@ public class SaveManager : MonoBehaviour
             catch (Exception e)
             {
                 Debug.LogError("Lỗi khi tải game: " + e.Message);
+                Debug.LogException(e);
             }
         }
         else
@@ -247,59 +300,4 @@ public class SaveManager : MonoBehaviour
     }
 }
 
-// Thêm các lớp hỗ trợ serialization Dictionary
-[Serializable]
-public class StringIntPair
-{
-    public string key;
-    public int value;
-}
-
-[Serializable]
-public class SerializableDictionary
-{
-    public List<StringIntPair> pairs = new List<StringIntPair>();
-
-    public void AddPair(string key, int value)
-    {
-        pairs.Add(new StringIntPair { key = key, value = value });
-    }
-
-    public Dictionary<string, int> ToDictionary()
-    {
-        Dictionary<string, int> result = new Dictionary<string, int>();
-        foreach (var pair in pairs)
-        {
-            result[pair.key] = pair.value;
-        }
-        return result;
-    }
-}
-
-// Sửa SaveData để sử dụng SerializableDictionary
-[Serializable]
-public class SaveData
-{
-    // Thông tin người chơi
-    public float playerPosX;
-    public float playerPosY;
-    public float playerStamina;
-
-    // Hệ thống nông trại
-    public List<FarmTileData> farmTiles = new List<FarmTileData>();
-
-    // Dữ liệu vật phẩm
-    public int money;
-    public SerializableDictionary seedInventory;
-    public SerializableDictionary cropInventory;
-
-    // Dữ liệu thú cưng
-    public string petName;
-    public int petAffection;
-    public int petFoodCount;
-
-    // Thời gian và mùa
-    public int currentDay;
-    public int currentSeason;
-    public float timeOfDay;
-}
+// Các lớp StringIntPair và SerializableDictionary đã được chuyển sang SaveData.cs
