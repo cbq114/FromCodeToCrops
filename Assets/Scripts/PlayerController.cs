@@ -123,6 +123,25 @@ public class PlayerController : MonoBehaviour
         if (isWaitingForFish || toolWaitCounter > 0)
         {
             theRB.linearVelocity = Vector2.zero;
+            if (toolWaitCounter > 0)
+            {
+                toolWaitCounter -= Time.deltaTime;
+                if (toolWaitCounter < 0)
+                    toolWaitCounter = 0;
+            }
+
+            // Emergency escape - allow player to regain control with ESC key
+            if (Keyboard.current.escapeKey.wasPressedThisFrame)
+            {
+                Debug.Log("Emergency control override!");
+                isWaitingForFish = false;
+                toolWaitCounter = 0;
+
+                // Hide any tool visuals if needed
+                if (fishingRodVisual != null)
+                    fishingRodVisual.SetActive(false);
+            }
+
             return;
         }
         else

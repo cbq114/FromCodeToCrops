@@ -90,7 +90,7 @@ public class FishingManager : MonoBehaviour
             else
             {
                 Debug.Log("Cá đã chạy mất!");
-                UIController.instance.ShowMessage("Cá đã chạy mất!");
+                UIController.instance.ShowMessage("Fish got away!");
             }
         }
     }
@@ -122,7 +122,7 @@ public class FishingManager : MonoBehaviour
             fishingPromptPanel.SetActive(false);
             catchPromptPanel.SetActive(false);
 
-            UIController.instance.ShowMessage("Bạn đã ngừng câu cá.");
+            UIController.instance.ShowMessage("You are no longer fishing.");
         }
         PlayerController.instance.isWaitingForFish = false;
 
