@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d8339ba562f675640bdd928bfa1f9ba6
+guid: f7683d0d459d57d499c11a95b4f1a6dd
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8904232221461454811
-    second: "Thi\u1EBFt k\u1EBF ch\u01B0a c\xF3 t\xEAn (3)_0"
+      213: 8107871626100986435
+    second: fish3Texture_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "Thi\u1EBFt k\u1EBF ch\u01B0a c\xF3 t\xEAn (3)_0"
+      name: fish3Texture_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1920
-        height: 1080
+        width: 82
+        height: 78
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 520e332a8ffcd6480800000000000000
-      internalID: -8904232221461454811
+      spriteID: 342d73e5942f48070800000000000000
+      internalID: 8107871626100986435
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "Thi\u1EBFt k\u1EBF ch\u01B0a c\xF3 t\xEAn (3)_0": -8904232221461454811
+      fish3Texture_0: 8107871626100986435
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

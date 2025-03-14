@@ -35,7 +35,8 @@ public class PlayerController : MonoBehaviour
         plough,
         wateringCan,
         seeds,
-        basket
+        basket,
+        fishingRod
     }
     public ToolType currentTool;
 
@@ -52,6 +53,11 @@ public class PlayerController : MonoBehaviour
     public float currentStamina;
     public float staminaRegenRate = 10f; // Hồi phục mỗi giờ game
     public float staminaUsePerAction = 5f; // Thể lực tiêu tốn khi làm việc
+    public FishingManager fishingManager;
+    public bool isWaitingForFish { get; set; } = false;
+    public GameObject fishingRodVisual;
+
+    private bool isInFishingArea = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -114,27 +120,20 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (toolWaitCounter > 0)
+        if (isWaitingForFish || toolWaitCounter > 0)
         {
-            toolWaitCounter -= Time.deltaTime;
             theRB.linearVelocity = Vector2.zero;
+            return;
         }
         else
         {
-            //theRB.linearVelocity = new Vector2(moveSpeed, 0f);
             theRB.linearVelocity = moveInput.action.ReadValue<Vector2>().normalized * moveSpeed;
 
-
             if (theRB.linearVelocity.x < 0f)
-            {
                 transform.localScale = new Vector3(-1f, 1f, 1f);
-            }
             else if (theRB.linearVelocity.x > 0f)
-            {
                 transform.localScale = Vector3.one;
-            }
         }
-
         bool hasSwitchedTool = false;
 
         if (Keyboard.current.tabKey.wasPressedThisFrame)
@@ -172,6 +171,33 @@ public class PlayerController : MonoBehaviour
             currentTool = ToolType.basket;
 
             hasSwitchedTool = true;
+        }
+        if (Keyboard.current.digit5Key.wasPressedThisFrame)
+        {
+            currentTool = ToolType.fishingRod;
+            hasSwitchedTool = true;
+
+            // Hiển thị nhân vật cầm cần câu
+
+            if (isInFishingArea)
+            {
+                if (fishingRodVisual != null)
+                    fishingRodVisual.SetActive(true);
+            }
+            else
+            {
+                // Show notification if not in fishing area
+                if (UIController.instance != null)
+                    UIController.instance.ShowMessage("You must be near a fishing spot!");
+
+                // Optional: Play error sound
+                if (AudioManager.instance != null)
+                    AudioManager.instance.PlaySFX(7);
+
+                // Make sure fishing rod is not visible
+                if (fishingRodVisual != null)
+                    fishingRodVisual.SetActive(false);
+            }
         }
 
         if (hasSwitchedTool == true)
@@ -233,7 +259,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Giữ lại tính năng nhấn P để mở menu thú cưng từ xa
-        if (Keyboard.current.vKey.wasPressedThisFrame)
+        if (Keyboard.current.pKey.wasPressedThisFrame)
         {
             if (petMenuController != null)
                 petMenuController.TogglePetMenu();
@@ -242,62 +268,75 @@ public class PlayerController : MonoBehaviour
         }
     }
 
- void UseTool()
-{
-    GrowBlock block = null;
-
-    block = GridController.instance.GetBlock(toolIndicator.position.x - .5f, toolIndicator.position.y - .5f);
-
-    toolWaitCounter = toolWaitTime;
-
-    if (block != null)
+    void UseTool()
     {
-        // Kiểm tra stamina trước khi thực hiện hành động
-        if (!UseStamina(staminaUsePerAction))
+        GrowBlock block = null;
+
+        block = GridController.instance.GetBlock(toolIndicator.position.x - .5f, toolIndicator.position.y - .5f);
+
+        toolWaitCounter = toolWaitTime;
+
+        if (block != null)
         {
-            // Không đủ stamina, hiển thị thông báo
-            if (UIController.instance != null)
-                UIController.instance.ShowMessage("Not fit enough!");
-                
-            // Phát âm thanh thông báo lỗi nếu có
-            if (AudioManager.instance != null)
-                AudioManager.instance.PlaySFX(7); // Giả sử 7 là âm thanh lỗi
-                
-            return; // Không thực hiện hành động nếu không đủ stamina
-        }
+            // Kiểm tra stamina trước khi thực hiện hành động
+            if (!UseStamina(staminaUsePerAction))
+            {
+                // Không đủ stamina, hiển thị thông báo
+                if (UIController.instance != null)
+                    UIController.instance.ShowMessage("Not fit enough!");
 
-        switch (currentTool)
-        {
-            case ToolType.plough:
-                block.PloughSoil();
-                anim.SetTrigger("usePlough");
-                break;
+                // Phát âm thanh thông báo lỗi nếu có
+                if (AudioManager.instance != null)
+                    AudioManager.instance.PlaySFX(7); // Giả sử 7 là âm thanh lỗi
 
-            case ToolType.wateringCan:
-                block.WaterSoil();
-                anim.SetTrigger("useWateringCan");
-                break;
+                return; // Không thực hiện hành động nếu không đủ stamina
+            }
 
-            case ToolType.seeds:
-                if (CropController.instance.GetCropInfo(seedCropType).seedAmount > 0)
-                {
-                    block.PlantCrop(seedCropType);
-                    //CropController.instance.UseSeed(seedCropType);
-                }
-                break;
+            switch (currentTool)
+            {
+                case ToolType.plough:
+                    block.PloughSoil();
+                    anim.SetTrigger("usePlough");
+                    break;
 
-            case ToolType.basket:
-                block.HarvestCrop();
-                break;
+                case ToolType.wateringCan:
+                    block.WaterSoil();
+                    anim.SetTrigger("useWateringCan");
+                    break;
+
+                case ToolType.seeds:
+                    if (CropController.instance.GetCropInfo(seedCropType).seedAmount > 0)
+                    {
+                        block.PlantCrop(seedCropType);
+                        //CropController.instance.UseSeed(seedCropType);
+                    }
+                    break;
+
+                case ToolType.basket:
+                    block.HarvestCrop();
+                    break;
+            }
         }
     }
-}
-
+    public void EnterFishingArea()
+    {
+        isInFishingArea = true;
+    }
     public void SwitchSeed(CropController.CropType newSeed)
     {
         seedCropType = newSeed;
     }
+    public void ExitFishingArea()
+    {
+        isInFishingArea = false;
 
+        // Cancel fishing if active
+        if (isWaitingForFish && fishingManager != null)
+        {
+            fishingManager.CancelFishing();
+            isWaitingForFish = false;
+        }
+    }
     public bool UseStamina(float amount)
     {
         if (currentStamina >= amount)
@@ -329,7 +368,7 @@ public class PlayerController : MonoBehaviour
         if (PetSystem.instance != null)
         {
             // Hồi thể lực nhanh hơn dựa trên tình cảm với thú cưng
-            float staminaBonus = (PetSystem.instance.staminaBoostPercentage / 100f) * staminaRegenRate;
+            float staminaBonus = PetSystem.instance.staminaBoostPercentage / 100f * staminaRegenRate;
             float actualRegenRate = staminaRegenRate + staminaBonus;
 
             // Áp dụng hồi phục thể lực nhanh hơn
@@ -365,6 +404,40 @@ public class PlayerController : MonoBehaviour
                     UIController.instance.interactionHint.SetActive(false);
                 }
             }
+        }
+    }
+    public void StartFishing()
+    {
+
+        // Check if in fishing area first
+        if (!isInFishingArea)
+        {
+            if (UIController.instance != null)
+                UIController.instance.ShowMessage("You must be near a fishing spot!");
+
+            if (AudioManager.instance != null)
+                AudioManager.instance.PlaySFX(7);
+            return;
+        }
+        if (!UseStamina(staminaUsePerAction))
+        {
+            if (UIController.instance != null)
+                UIController.instance.ShowMessage("You're too tired to fish!");
+
+            if (AudioManager.instance != null)
+                AudioManager.instance.PlaySFX(7);
+            return;
+        }
+
+        anim.SetTrigger("fishing");
+        if (fishingManager != null)
+        {
+            isWaitingForFish = true;
+            fishingManager.StartFishing();
+        }
+        else
+        {
+            Debug.LogWarning("Fishing Manager reference is missing!");
         }
     }
 }
