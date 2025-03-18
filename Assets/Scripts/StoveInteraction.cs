@@ -4,25 +4,25 @@ using UnityEngine.InputSystem;
 public class StoveInteraction : MonoBehaviour
 {
     private bool playerInRange = false;
-    
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-		if (collision.tag == "Player")
-		{
+        if (collision.tag == "Player")
+        {
             playerInRange = true;
-            UIController.instance.ShowMessage("Nhấn E để nấu ăn");
+            //UIController.instance.ShowMessage("Nhấn E để nấu ăn");
         }
     }
-    
+
     private void OnTriggerExit2D(Collider2D collision)
     {
-		if (collision.tag == "Player")
-		{
+        if (collision.tag == "Player")
+        {
             playerInRange = false;
         }
     }
-    
+
     private void Update()
     {
         if (playerInRange && (Keyboard.current.eKey.wasPressedThisFrame || Input.GetKeyDown(KeyCode.E)))

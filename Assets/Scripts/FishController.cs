@@ -51,17 +51,18 @@ public class FishController : MonoBehaviour
         }
     }
 
-    public void RemoveFish(FishType fishToRemove)
+    public void RemoveFish(FishType fishType, int amount)
     {
         foreach (FishInfo info in fishList)
         {
-            if (info.fishType == fishToRemove && info.fishAmount > 0)
+            if (info.fishType == fishType)
             {
-                info.fishAmount--;
+                info.fishAmount = Mathf.Max(0, info.fishAmount - amount);
                 return;
             }
         }
     }
+
 
     public void SetFishAmount(FishType fishType, int amount)
     {

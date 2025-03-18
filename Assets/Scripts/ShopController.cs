@@ -4,6 +4,7 @@ public class ShopController : MonoBehaviour
 {
     public ShopSeedDisplay[] seeds;
     public ShopCropDisplay[] crops;
+    public ShopFishDisplay[] fishes;
     [Header("Pet Items")]
     public ShopItemDisplay petFoodItem;
 
@@ -23,21 +24,21 @@ public class ShopController : MonoBehaviour
                 {
                     UIController.instance.staminaBarContainer.SetActive(false);
                 }
-				if (UIController.instance.seasonPanel != null)
-				{
-					UIController.instance.seasonPanel.SetActive(false);
-				}
+                if (UIController.instance.seasonPanel != null)
+                {
+                    UIController.instance.seasonPanel.SetActive(false);
+                }
 
-				//petFoodItem.itemName = "Thức ăn thú cưng";
-    //            petFoodItem.itemDescription = "Tăng tình cảm với thú cưng của bạn.";
-    //            petFoodItem.itemPrice = 5;
-    //            petFoodItem.onBuyItem.AddListener(() =>
-    //            {
-    //                if (MoneyManager.instance.SpendMoney(petFoodItem.itemPrice))
-    //                {
-    //                    FindObjectOfType<PetMenuController>().AddPetFood(1);
-    //                }
-    //            });
+                //petFoodItem.itemName = "Thức ăn thú cưng";
+                //            petFoodItem.itemDescription = "Tăng tình cảm với thú cưng của bạn.";
+                //            petFoodItem.itemPrice = 5;
+                //            petFoodItem.onBuyItem.AddListener(() =>
+                //            {
+                //                if (MoneyManager.instance.SpendMoney(petFoodItem.itemPrice))
+                //                {
+                //                    FindObjectOfType<PetMenuController>().AddPetFood(1);
+                //                }
+                //            });
 
                 // Cập nhật hiển thị các mặt hàng
                 foreach (ShopSeedDisplay seed in seeds)
@@ -49,6 +50,11 @@ public class ShopController : MonoBehaviour
                 {
                     crop.UpdateDisplay();
                 }
+                foreach (ShopFishDisplay fish in fishes)
+                {
+                    fish.UpdateDisplay();
+                }
+
             }
             else
             {
@@ -58,11 +64,11 @@ public class ShopController : MonoBehaviour
                     UIController.instance.staminaBarContainer.SetActive(true);
                 }
 
-				if (UIController.instance.seasonPanel != null)
-				{
-					UIController.instance.seasonPanel.SetActive(true);
-				}
-			}
+                if (UIController.instance.seasonPanel != null)
+                {
+                    UIController.instance.seasonPanel.SetActive(true);
+                }
+            }
         }
     }
 }
