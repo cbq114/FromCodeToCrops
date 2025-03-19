@@ -94,53 +94,71 @@ public class CookingSystem : MonoBehaviour
 		}
 	}
 
-	private void SelectRecipe(Recipe recipe)
-	{
-		currentRecipe = recipe;
+    private void SelectRecipe(Recipe recipe)
+    {
+        currentRecipe = recipe;
 
-		selectedRecipeImage.sprite = recipe.recipeImage;
-		selectedRecipeName.text = recipe.recipeName;
-		selectedRecipeDescription.text = recipe.description;
+        selectedRecipeImage.sprite = recipe.recipeImage;
+        selectedRecipeName.text = recipe.recipeName;
+        selectedRecipeDescription.text = recipe.description;
 
-		int itemAmount = CookingInventory.instance.GetItemAmount(recipe.resultItem);
-		itemAmountText.text = $"Số lượng: {itemAmount}";
+        int itemAmount = CookingInventory.instance.GetItemAmount(recipe.resultItem);
+        itemAmountText.text = $"Số lượng: {itemAmount}";
 
-		string ingredientsList = "Nguyên liệu cần:\n";
-		bool canCook = true;
+        string ingredientsList = "Nguyên liệu cần:\n";
+        bool canCook = true;
 
-		foreach (RecipeIngredient ingredient in recipe.ingredients)
-		{
-			int playerHas = CropController.instance.GetCropInfo(ingredient.cropType).cropAmount;
-			ingredientsList += $"- {ingredient.cropType}: {playerHas}/{ingredient.amount}\n";
+        foreach (RecipeIngredient ingredient in recipe.ingredients)
+        {
+            int playerHas = 0;
 
-			if (playerHas < ingredient.amount)
-				canCook = false;
-		}
+            if (ingredient.ingredientType == RecipeIngredient.IngredientType.Crop)
+            {
+                playerHas = CropController.instance.GetCropInfo(ingredient.cropType).cropAmount;
+                ingredientsList += $"- {ingredient.cropType}: {playerHas}/{ingredient.amount}\n";
+            }
+            else if (ingredient.ingredientType == RecipeIngredient.IngredientType.Fish)
+            {
+                playerHas = FishController.instance.GetFishInfo(ingredient.fishType).fishAmount;
+                ingredientsList += $"- {ingredient.fishType}: {playerHas}/{ingredient.amount}\n";
+            }
 
-		ingredientsText.text = ingredientsList;
-		cookButton.interactable = canCook;
+            if (playerHas < ingredient.amount)
+                canCook = false;
+        }
 
-		useButton.interactable = itemAmount > 0;
-		useButton.onClick.RemoveAllListeners();
-		useButton.onClick.AddListener(() => ConsumeFood(currentRecipe));
-	}
+        ingredientsText.text = ingredientsList;
+        cookButton.interactable = canCook;
 
-	public void CookSelectedRecipe()
-	{
-		if (currentRecipe == null) return;
+        useButton.interactable = itemAmount > 0;
+        useButton.onClick.RemoveAllListeners();
+        useButton.onClick.AddListener(() => ConsumeFood(currentRecipe));
+    }
 
-		foreach (RecipeIngredient ingredient in currentRecipe.ingredients)
-		{
-			CropController.instance.UseCrop(ingredient.cropType, ingredient.amount);
-		}
+    public void CookSelectedRecipe()
+    {
+        if (currentRecipe == null) return;
 
-		CookingInventory.instance.AddItem(currentRecipe.resultItem, currentRecipe.resultAmount);
-		UIController.instance.ShowMessage($"Đã nấu thành công: {currentRecipe.recipeName}");
-		//AudioManager.instance.PlaySFX(8);
-		SelectRecipe(currentRecipe);
-	}
+        foreach (RecipeIngredient ingredient in currentRecipe.ingredients)
+        {
+            if (ingredient.ingredientType == RecipeIngredient.IngredientType.Crop)
+            {
+                CropController.instance.UseCrop(ingredient.cropType, ingredient.amount);
+            }
+            else if (ingredient.ingredientType == RecipeIngredient.IngredientType.Fish)
+            {
+                FishController.instance.UseFish(ingredient.fishType, ingredient.amount);
+            }
+        }
 
-	public void ConsumeFood(Recipe recipe)
+
+        CookingInventory.instance.AddItem(currentRecipe.resultItem, currentRecipe.resultAmount);
+        UIController.instance.ShowMessage($"Đã nấu thành công: {currentRecipe.recipeName}");
+        AudioManager.instance.PlaySFX(8);
+        SelectRecipe(currentRecipe);
+    }
+
+    public void ConsumeFood(Recipe recipe)
 	{
 		if (CookingInventory.instance.GetItemAmount(recipe.resultItem) <= 0)
 		{
@@ -161,7 +179,8 @@ public class CookingSystem : MonoBehaviour
 		if (recipe.toolEfficiencyBoost > 0)
 			StartCoroutine(ApplyToolEfficiencyBoost(recipe.toolEfficiencyBoost, recipe.toolEfficiencyDuration));
 
-		SelectRecipe(recipe);
+        AudioManager.instance.PlaySFX(9);
+        SelectRecipe(recipe);
 		UIController.instance.ShowMessage($"Đã sử dụng: {recipe.recipeName}");
 	}
 

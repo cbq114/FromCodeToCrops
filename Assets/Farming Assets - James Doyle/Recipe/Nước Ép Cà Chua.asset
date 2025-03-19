@@ -9,14 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8c1c91a50b48944bbe514ffe1629742, type: 3}
+  m_Script: {fileID: 11500000, guid: d4042da1ff27ff94bad489df2920d6e6, type: 3}
   m_Name: "N\u01B0\u1EDBc \xC9p C\xE0 Chua"
   m_EditorClassIdentifier: 
-  itemName: "N\u01B0\u1EDBc \xC9p C\xE0 Chua"
-  itemIcon: {fileID: 3880370049844662043, guid: 2866ac2b467cace4d808e92bf3ff525a, type: 3}
+  recipeName: "N\u01B0\u1EDBc \xC9p C\xE0 Chua"
+  recipeImage: {fileID: 3880370049844662043, guid: 2866ac2b467cace4d808e92bf3ff525a, type: 3}
   description: "M\u1ED9t ly n\u01B0\u1EDBc \xE9p c\xE0 chua t\u01B0\u01A1i m\xE1t,
     kh\xF4ng ch\u1EC9 gi\u1EA3i kh\xE1t m\xE0 c\xF2n cung c\u1EA5p nhi\u1EC1u vitamin
     v\xE0 gi\xFAp c\u1EA3i thi\u1EC7n s\u1EE9c kh\u1ECFe."
-  baseValue: 0
-  isConsumable: 0
-  recipe: {fileID: 11400000, guid: 822e630883d9ac64b89b10b936e22d48, type: 2}
+  ingredients:
+  - ingredientType: 0
+    cropType: 6
+    fishType: 0
+    amount: 3
+  resultItem: {fileID: 0}
+  resultAmount: 1
+  staminaRestoreAmount: 400
+  speedBoostAmount: 3
+  speedBoostDuration: 40
+  toolEfficiencyBoost: 5
+  toolEfficiencyDuration: 40

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4042da1ff27ff94bad489df2920d6e6, type: 3}
-  m_Name: Strawberry Tart
+  m_Name: "B\xE1nh Tart D\xE2u T\xE2y"
   m_EditorClassIdentifier: 
   recipeName: "B\xE1nh Tart D\xE2u T\xE2y"
   recipeImage: {fileID: -5644140808350741939, guid: aec53a96c76f42144a8b895328418814, type: 3}
@@ -18,12 +18,14 @@ MonoBehaviour:
     d\xE2u t\xE2y ng\u1ECDt ng\xE0o, m\xF3n tr\xE1ng mi\u1EC7ng ho\xE0n h\u1EA3o
     cho m\u1ECDi b\u1EEFa ti\u1EC7c."
   ingredients:
-  - cropType: 5
-    amount: 5
-  resultItem: {fileID: 11400000, guid: ed459566f4990b4499e1632f0b0bf64e, type: 2}
+  - ingredientType: 0
+    cropType: 5
+    fishType: 0
+    amount: 3
+  resultItem: {fileID: 0}
   resultAmount: 1
-  staminaRestoreAmount: 50
-  speedBoostAmount: 0.1
-  speedBoostDuration: 10
-  toolEfficiencyBoost: 0
+  staminaRestoreAmount: 200
+  speedBoostAmount: 2
+  speedBoostDuration: 30
+  toolEfficiencyBoost: 5
   toolEfficiencyDuration: 0

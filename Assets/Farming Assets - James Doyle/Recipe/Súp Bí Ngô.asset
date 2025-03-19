@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4042da1ff27ff94bad489df2920d6e6, type: 3}
-  m_Name: Pumpkin Soup
+  m_Name: "S\xFAp B\xED Ng\xF4"
   m_EditorClassIdentifier: 
   recipeName: "S\xFAp B\xED Ng\xF4"
   recipeImage: {fileID: -8814190892759564183, guid: 5ed355b11b097884883527a18a0e496f, type: 3}
@@ -19,12 +19,14 @@ MonoBehaviour:
     l\xE0m t\u1EEB b\xED ng\xF4 t\u01B0\u01A1i, m\xF3n s\xFAp n\xE0y gi\xFAp ph\u1EE5c
     h\u1ED3i s\u1EE9c kh\u1ECFe v\xE0 mang l\u1EA1i c\u1EA3m gi\xE1c \u1EA5m \xE1p."
   ingredients:
-  - cropType: 0
+  - ingredientType: 0
+    cropType: 0
+    fishType: 0
     amount: 3
-  resultItem: {fileID: 11400000, guid: f988ae9a642acaa43953ecc45c58404f, type: 2}
+  resultItem: {fileID: 0}
   resultAmount: 1
-  staminaRestoreAmount: 30
-  speedBoostAmount: 0
-  speedBoostDuration: 0
+  staminaRestoreAmount: 150
+  speedBoostAmount: 0.7
+  speedBoostDuration: 25
   toolEfficiencyBoost: 0
   toolEfficiencyDuration: 0

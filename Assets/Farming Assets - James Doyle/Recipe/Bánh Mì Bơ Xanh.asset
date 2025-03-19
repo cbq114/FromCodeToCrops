@@ -10,23 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4042da1ff27ff94bad489df2920d6e6, type: 3}
-  m_Name: Avocado Toast
+  m_Name: "B\xE1nh M\xEC B\u01A1 Xanh"
   m_EditorClassIdentifier: 
   recipeName: "B\xE1nh M\xEC B\u01A1 Xanh"
-  recipeImage: {fileID: 8772427761191697563, guid: ce455026c7a3fad418a03003ae253651, type: 3}
+  recipeImage: {fileID: -5062428671144103603, guid: d7c16333f460feb4e92a470ee74e2951, type: 3}
   description: "B\xE1nh m\xEC ph\u1EE7 l\u1EDBp b\u01A1 xanh b\xE9o ng\u1EADy c\xF9ng
     x\xE0 l\xE1ch t\u01B0\u01A1i m\xE1t, m\xF3n \u0103n s\xE1ng l\xFD t\u01B0\u1EDFng
     cho nh\u1EEFng ai y\xEAu th\xEDch s\u1EF1 \u0111\u01A1n gi\u1EA3n v\xE0 dinh
     d\u01B0\u1EE1ng."
   ingredients:
-  - cropType: 7
+  - ingredientType: 0
+    cropType: 7
+    fishType: 0
     amount: 2
-  - cropType: 1
+  - ingredientType: 0
+    cropType: 0
+    fishType: 0
+    amount: 0
+  - ingredientType: 0
+    cropType: 3
+    fishType: 0
     amount: 1
-  resultItem: {fileID: 11400000, guid: d67e78230ca9db941921d81a84d66cd6, type: 2}
+  resultItem: {fileID: 0}
   resultAmount: 1
-  staminaRestoreAmount: 25
-  speedBoostAmount: 0
-  speedBoostDuration: 0
-  toolEfficiencyBoost: 0
-  toolEfficiencyDuration: 0
+  staminaRestoreAmount: 500
+  speedBoostAmount: 4
+  speedBoostDuration: 40
+  toolEfficiencyBoost: 5
+  toolEfficiencyDuration: 40

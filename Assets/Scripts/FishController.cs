@@ -75,6 +75,28 @@ public class FishController : MonoBehaviour
             }
         }
     }
+    public bool UseFish(FishType fishToUse, int quantity)
+    {
+        foreach (FishInfo info in fishList)
+        {
+            if (info.fishType == fishToUse)
+            {
+                if (info.fishAmount >= quantity)
+                {
+                    info.fishAmount -= quantity;
+                    Debug.Log($"Used {quantity} {fishToUse}. Remaining: {info.fishAmount}");
+                    return true;
+                }
+                else
+                {
+                    Debug.Log($"Not enough {fishToUse} available.");
+                    return false;
+                }
+            }
+        }
+        Debug.Log($"{fishToUse} not found in inventory.");
+        return false;
+    }
 }
 
 [System.Serializable]

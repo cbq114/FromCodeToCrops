@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4042da1ff27ff94bad489df2920d6e6, type: 3}
-  m_Name: Potato Pie
+  m_Name: "B\xE1nh Khoai T\xE2y"
   m_EditorClassIdentifier: 
   recipeName: "B\xE1nh Khoai T\xE2y"
   recipeImage: {fileID: 8899552363882432802, guid: 8b50b7f7ddc5b4e4a9331bc828f7a8d8, type: 3}
@@ -18,14 +18,18 @@ MonoBehaviour:
     l\xE0 s\u1EF1 k\u1EBFt h\u1EE3p ho\xE0n h\u1EA3o gi\u1EEFa khoai t\xE2y v\xE0
     c\xE0 r\u1ED1t, mang \u0111\u1EBFn s\u1EF1 h\xE0i l\xF2ng cho v\u1ECB gi\xE1c."
   ingredients:
-  - cropType: 4
+  - ingredientType: 0
+    cropType: 4
+    fishType: 0
     amount: 3
-  - cropType: 2
+  - ingredientType: 0
+    cropType: 2
+    fishType: 0
     amount: 2
-  resultItem: {fileID: 11400000, guid: b8b53b665063cbf4ebbd6cd13fe48053, type: 2}
+  resultItem: {fileID: 0}
   resultAmount: 1
-  staminaRestoreAmount: 40
-  speedBoostAmount: 0
-  speedBoostDuration: 0
+  staminaRestoreAmount: 250
+  speedBoostAmount: 1
+  speedBoostDuration: 30
   toolEfficiencyBoost: 0
   toolEfficiencyDuration: 0

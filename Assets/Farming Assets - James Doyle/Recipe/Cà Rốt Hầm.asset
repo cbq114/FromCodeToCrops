@@ -10,21 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4042da1ff27ff94bad489df2920d6e6, type: 3}
-  m_Name: Carrot Stew
+  m_Name: "C\xE0 R\u1ED1t H\u1EA7m"
   m_EditorClassIdentifier: 
   recipeName: "C\xE0 R\u1ED1t H\u1EA7m"
-  recipeImage: {fileID: 5441247345626790533, guid: 3b3781279f54e4240824a692fcbc85f4, type: 3}
+  recipeImage: {fileID: -6979065475916231993, guid: 53d9b87d943e07944beb094260bb689f, type: 3}
   description: "M\xF3n h\u1EA7m \u0111\u1EADm \u0111\xE0 v\u1EDBi c\xE0 r\u1ED1t
     t\u01B0\u01A1i ngon, mang \u0111\u1EBFn h\u01B0\u01A1ng v\u1ECB ng\u1ECDt t\u1EF1
     nhi\xEAn v\xE0 gi\xFAp ph\u1EE5c h\u1ED3i n\u0103ng l\u01B0\u1EE3ng hi\u1EC7u
     qu\u1EA3."
   ingredients:
-  - cropType: 2
+  - ingredientType: 0
+    cropType: 2
+    fishType: 0
     amount: 4
-  resultItem: {fileID: 11400000, guid: b880a31047778304b9e2e9ffaedb9e31, type: 2}
+  resultItem: {fileID: 0}
   resultAmount: 1
-  staminaRestoreAmount: 35
-  speedBoostAmount: 0
-  speedBoostDuration: 0
+  staminaRestoreAmount: 200
+  speedBoostAmount: 2
+  speedBoostDuration: 25
   toolEfficiencyBoost: 0
   toolEfficiencyDuration: 0

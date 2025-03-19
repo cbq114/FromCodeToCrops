@@ -26,6 +26,10 @@ public class Recipe : ScriptableObject
 [System.Serializable]
 public class RecipeIngredient
 {
+    public enum IngredientType { Crop, Fish }
+
+    public IngredientType ingredientType;
     public CropController.CropType cropType;
+    public FishController.FishType fishType;
     public int amount = 1;
 }

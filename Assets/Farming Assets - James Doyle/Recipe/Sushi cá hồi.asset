@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4042da1ff27ff94bad489df2920d6e6, type: 3}
-  m_Name: Tomato Juice
+  m_Name: "Sushi c\xE1 h\u1ED3i"
   m_EditorClassIdentifier: 
-  recipeName: "N\u01B0\u1EDBc \xC9p C\xE0 Chua"
-  recipeImage: {fileID: 3880370049844662043, guid: 2866ac2b467cace4d808e92bf3ff525a, type: 3}
-  description: "M\u1ED9t ly n\u01B0\u1EDBc \xE9p c\xE0 chua t\u01B0\u01A1i m\xE1t,
-    kh\xF4ng ch\u1EC9 gi\u1EA3i kh\xE1t m\xE0 c\xF2n cung c\u1EA5p nhi\u1EC1u vitamin
-    v\xE0 gi\xFAp c\u1EA3i thi\u1EC7n s\u1EE9c kh\u1ECFe."
+  recipeName: "Sushi c\xE1 h\u1ED3i"
+  recipeImage: {fileID: -2391543159970210737, guid: b7a142d2b78871e4db0c5c6aaa019b4c, type: 3}
+  description: "Sushi c\xE1 h\u1ED3i \u0111\u1EB7c bi\u1EC7t t\u01B0\u01A1i ngon"
   ingredients:
-  - cropType: 6
+  - ingredientType: 1
+    cropType: 0
+    fishType: 0
     amount: 3
-  resultItem: {fileID: 11400000, guid: b1c15a2db8f59714a817c640e79abe91, type: 2}
+  resultItem: {fileID: 0}
   resultAmount: 1
-  staminaRestoreAmount: 25
+  staminaRestoreAmount: 500
   speedBoostAmount: 0
   speedBoostDuration: 0
   toolEfficiencyBoost: 0

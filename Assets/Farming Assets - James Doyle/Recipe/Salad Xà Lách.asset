@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4042da1ff27ff94bad489df2920d6e6, type: 3}
-  m_Name: Lettuce Salad
+  m_Name: "Salad X\xE0 L\xE1ch"
   m_EditorClassIdentifier: 
   recipeName: "Salad X\xE0 L\xE1ch"
   recipeImage: {fileID: 4770776236079539142, guid: 45022a0bd9d5a934ab107fad2f7a9eea, type: 3}
@@ -18,14 +18,18 @@ MonoBehaviour:
     h\u1EE3p v\u1EDBi v\u1ECB chua ng\u1ECDt c\u1EE7a c\xE0 chua, t\u1EA1o n\xEAn
     m\u1ED9t m\xF3n \u0103n nh\u1EB9 nh\xE0ng v\xE0 t\u1ED1t cho s\u1EE9c kh\u1ECFe."
   ingredients:
-  - cropType: 1
+  - ingredientType: 0
+    cropType: 1
+    fishType: 0
     amount: 2
-  - cropType: 6
+  - ingredientType: 0
+    cropType: 6
+    fishType: 0
     amount: 1
-  resultItem: {fileID: 11400000, guid: c75715ad1f3239e438da6be6db849ab0, type: 2}
+  resultItem: {fileID: 0}
   resultAmount: 1
-  staminaRestoreAmount: 20
-  speedBoostAmount: 0
-  speedBoostDuration: 0
+  staminaRestoreAmount: 250
+  speedBoostAmount: 3
+  speedBoostDuration: 30
   toolEfficiencyBoost: 0
   toolEfficiencyDuration: 0

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8c1c91a50b48944bbe514ffe1629742, type: 3}
+  m_Name: "C\xE1 n\u01B0\u1EDBng"
+  m_EditorClassIdentifier: 
+  itemName: "C\xE1 n\u01B0\u1EDBng"
+  itemIcon: {fileID: -7055433856727762585, guid: 53a9db879e4d35f44867283071075741, type: 3}
+  description: "C\xE1 n\u01B0\u1EDBng ngon"
+  baseValue: 0
+  isConsumable: 0
+  recipe: {fileID: 11400000, guid: 051d80ee8f505dc469c78062981b7dfa, type: 2}
